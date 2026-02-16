@@ -1,0 +1,2066 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Справочник по обслуживанию и ремонту компьютерных систем</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Стили для скрытых элементов */
+        .hidden-element {
+            opacity: 0;
+            transform: translateY(-20px);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .hidden-element.active {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 500px;
+        }
+        
+        /* Кнопка показа/скрытия */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .toggle-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path fill="white" d="M10 10H20V20H10zM30 10H40V20H30zM50 10H60V20H50zM70 10H80V20H70zM10 30H20V40H10zM30 30H40V40H30zM50 30H60V40H50zM70 30H80V40H70zM10 50H20V60H10zM30 50H40V60H30zM50 50H60V60H50zM70 50H80V60H70zM10 70H20V80H10zM30 70H40V80H30zM50 70H60V80H50zM70 70H80V80H70z"/></svg>');
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .intro {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 25px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            outline: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .search-box input:focus {
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+        }
+        
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .quick-action-btn {
+            padding: 14px 28px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .quick-action-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .tab-btn {
+            padding: 14px 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            transition: var(--transition);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tab-btn:hover {
+            background: #f8f9fa;
+            color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .tab-btn.active {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: var(--secondary);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-header .icon {
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+        
+        .card:hover .card-header .icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .card-body {
+            padding: 1.8rem;
+        }
+        
+        .problem-list {
+            list-style-type: none;
+        }
+        
+        .problem-item {
+            padding: 1.2rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8f9fa;
+        }
+        
+        .problem-item::before {
+            content: '🔧';
+            font-size: 1.2rem;
+        }
+        
+        .problem-item:hover {
+            background: linear-gradient(135deg, #e8f4fc, #d4edda);
+            transform: translateX(8px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .problem-item.active {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            transform: translateX(10px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .problem-item.active::before {
+            content: '✅';
+        }
+        
+        .solution {
+            background: #e8f4fc;
+            border-left: 5px solid var(--secondary);
+            padding: 1.8rem;
+            margin-top: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .solution.active {
+            display: block;
+        }
+        
+        .solution-step {
+            background: white;
+            padding: 1.2rem;
+            margin: 0.8rem 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--success);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .solution-step::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .solution-step:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .component {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .component::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
+            transition: left 0.7s;
+        }
+        
+        .component:hover::before {
+            left: 100%;
+        }
+        
+        .component:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: var(--secondary);
+        }
+        
+        .component i {
+            font-size: 3.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            display: block;
+            transition: var(--transition);
+        }
+        
+        .component:hover i {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .component h3 {
+            margin: 1.2rem 0 0.8rem;
+            transition: var(--transition);
+            font-size: 1.4rem;
+        }
+        
+        .component:hover h3 {
+            color: var(--primary);
+        }
+        
+        .tool-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .tool-table th, .tool-table td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+        
+        .tool-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        .tool-table th:hover {
+            background: #34495e;
+        }
+        
+        .tool-table tr {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tool-table tr:hover {
+            background: #f8f9fa;
+            transform: translateX(8px);
+        }
+        
+        .tool-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Стили для теста */
+        .quiz-progress {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 1.2rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--success));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .quiz-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            margin-top: 1.5rem;
+        }
+        
+        .quiz-question {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            color: var(--primary);
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            padding: 18px 22px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .quiz-option:hover {
+            background: #e8f4fc;
+            transform: translateX(8px);
+            border-color: var(--secondary);
+        }
+        
+        .quiz-option input[type="radio"] {
+            margin-right: 18px;
+            transform: scale(1.3);
+        }
+        
+        .quiz-option.selected {
+            background: #d4edda;
+            border-left: 5px solid var(--success);
+            transform: translateX(10px);
+        }
+        
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .btn-primary {
+            background: var(--success);
+        }
+        
+        .btn-primary:hover {
+            background: #218838;
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .quiz-results {
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            padding: 3rem 2.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(var(--success) 0%, #e9ecef 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2.5rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.8s ease;
+            position: relative;
+        }
+        
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        .score-circle span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .score-circle.excellent {
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .score-circle.good {
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        .score-circle.average {
+            box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4);
+        }
+        
+        .score-circle.poor {
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.4);
+        }
+        
+        .answer-review-item {
+            text-align: left;
+            margin: 1.8rem 0;
+            padding: 1.8rem;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+        
+        .answer-review-item:hover {
+            transform: translateX(8px);
+        }
+        
+        .answer-correct {
+            background: #d4edda;
+            border-left: 5px solid var(--success);
+        }
+        
+        .answer-incorrect {
+            background: #f8d7da;
+            border-left: 5px solid var(--accent);
+        }
+        
+        /* Стили для форм */
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            outline: none;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        /* Стили для сборки ПК */
+        .pc-builder {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+        
+        .component-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .selected-components {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .component-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .total-price {
+            text-align: right;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        /* Стили для отзывов */
+        .reviews-container {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .review-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .review-author {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .review-rating {
+            color: var(--warning);
+        }
+        
+        .review-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--success);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .floating-buttons {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            z-index: 1000;
+        }
+        
+        .floating-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transition: var(--transition);
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .floating-btn.home {
+            background: var(--primary);
+        }
+        
+        .floating-btn.quiz {
+            background: var(--success);
+        }
+        
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .card-grid, .component-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .quiz-navigation {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+            
+            .quiz-navigation .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quick-action-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .floating-buttons {
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+            
+            .floating-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Кнопка показа/скрытия меню -->
+    <button class="toggle-btn" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-tools"></i> Техническое обслуживание и ремонт компьютерных систем</h1>
+            <p class="intro">Интерактивный справочник по диагностике, обслуживанию и ремонту компьютерного оборудования. Найдите решение для любой проблемы!</p>
+            
+            <!-- Скрытый поиск -->
+            <div class="search-box hidden-element" id="searchBox">
+                <input type="text" id="searchInput" placeholder="🔍 Поиск по проблемам, компонентам, инструментам...">
+            </div>
+            
+            <!-- Скрытые быстрые кнопки -->
+            <div class="quick-actions hidden-element" id="quickActions">
+                <button class="quick-action-btn" data-tab="problems">
+                    <i class="fas fa-bolt"></i> Быстрые решения
+                </button>
+                <button class="quick-action-btn" data-tab="components">
+                    <i class="fas fa-desktop"></i> Компоненты ПК
+                </button>
+                <button class="quick-action-btn" data-tab="tools">
+                    <i class="fas fa-toolbox"></i> Инструменты
+                </button>
+                <button class="quick-action-btn" data-tab="quiz">
+                    <i class="fas fa-graduation-cap"></i> Тест знаний
+                </button>
+                <button class="quick-action-btn" data-tab="builder">
+                    <i class="fas fa-computer"></i> Сборка ПК
+                </button>
+                <button class="quick-action-btn" data-tab="reviews">
+                    <i class="fas fa-star"></i> Отзывы
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Скрытая навигация -->
+        <div class="nav-tabs hidden-element" id="navTabs">
+            <button class="tab-btn active" data-tab="problems">
+                <i class="fas fa-exclamation-triangle"></i> Типичные проблемы
+            </button>
+            <button class="tab-btn" data-tab="components">
+                <i class="fas fa-microchip"></i> Компоненты ПК
+            </button>
+            <button class="tab-btn" data-tab="tools">
+                <i class="fas fa-wrench"></i> Инструменты и ПО
+            </button>
+            <button class="tab-btn" data-tab="quiz">
+                <i class="fas fa-question-circle"></i> Проверка знаний
+            </button>
+            <button class="tab-btn" data-tab="builder">
+                <i class="fas fa-computer"></i> Сборка ПК
+            </button>
+            <button class="tab-btn" data-tab="reviews">
+                <i class="fas fa-comments"></i> Отзывы
+            </button>
+            <button class="tab-btn" data-tab="auth">
+                <i class="fas fa-user"></i> <span id="authTabText">Регистрация/Вход</span>
+            </button>
+        </div>
+        
+        <!-- Контентные разделы -->
+        <div id="problems" class="tab-content active">
+            <h2><i class="fas fa-exclamation-triangle"></i> Распространенные проблемы и решения</h2>
+            <p>Выберите проблему для просмотра возможных причин и пошаговых решений:</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-bolt"></i> Проблемы с питанием
+                        <span class="icon">⚡</span>
+                    </div>
+                    <div class="card-body">
+                        <ul class="problem-list">
+                            <li class="problem-item" data-solution="power1">Компьютер не включается</li>
+                            <li class="problem-item" data-solution="power2">Самопроизвольное выключение</li>
+                            <li class="problem-item" data-solution="power3">Нестабильная работа</li>
+                        </ul>
+                        
+                        <div id="power1" class="solution">
+                            <h3><i class="fas fa-plug"></i> Компьютер не включается</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
+                                <li>Неисправность блока питания</li>
+                                <li>Проблемы с кабелем питания</li>
+                                <li>Неисправность кнопки включения</li>
+                                <li>Короткое замыкание на материнской плате</li>
+                            </ul>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Проверьте подключение кабеля питания к розетке и БП</div>
+                            <div class="solution-step">Попробуйте другой кабель питания</div>
+                            <div class="solution-step">Проверьте кнопку включения на корпусе</div>
+                            <div class="solution-step">Протестируйте блок питания на другом ПК или с помощью тестера</div>
+                        </div>
+                        
+                        <div id="power2" class="solution">
+                            <h3><i class="fas fa-power-off"></i> Самопроизвольное выключение</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
+                                <li>Перегрев компонентов</li>
+                                <li>Недостаточная мощность БП</li>
+                                <li>Нестабильное напряжение в сети</li>
+                            </ul>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Очистите систему охлаждения от пыли</div>
+                            <div class="solution-step">Проверьте температуру процессора и видеокарты</div>
+                            <div class="solution-step">Убедитесь, что БП обеспечивает достаточную мощность</div>
+                            <div class="solution-step">Используйте ИБП для стабилизации напряжения</div>
+                        </div>
+                        <div id="power3" class="solution">
+                            <h3><i class="fas fa-power-off"></i>Нестабильная работа</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
+                                <li>Нестабильное напряжение от блока питания</li>
+                                <li>Проблемы с оперативной памятью</li>
+                                <li>Перегрев компонентов</li>
+                                <li>Неисправность материнской платы</li>
+                            </ul>
+                            <p><strong><i class="=fas fa-tools">Решение:</i></strong></p>
+                            <div class="solution-step">✓ Проверьте блок питания мультиметром</div>
+                            <div class="solution-step">✓ Протестируйте оперативную память с помощью Memtest86+</div>
+                            <div class="solution-step">✓ Проверьте температуру компонентов под нагрузкой</div>
+                            <div class="solution-step">✓ Проверьте материнскую плату на вздутые конденсаторы</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-desktop"></i> Проблемы с загрузкой
+                        <span class="icon">🚀</span>
+                    </div>
+                    <div class="card-body">
+                        <ul class="problem-list">
+                            <li class="problem-item" data-solution="boot1">Нет изображения на мониторе</li>
+                            <li class="problem-item" data-solution="boot2">Компьютер зависает при загрузке</li>
+                            <li class="problem-item" data-solution="boot3">Синий экран (BSOD)</li>
+                        </ul>
+                        
+                        <div id="boot1" class="solution">
+                            <h3><i class="fas fa-tv"></i> Нет изображения на мониторе</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
+                                <li>Неисправность монитора или кабеля</li>
+                                <li>Проблемы с видеокартой</li>
+                                <li>Неправильные настройки BIOS</li>
+                                <li>Неисправность оперативной памяти</li>
+                            </ul>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Проверьте подключение монитора и исправность кабеля</div>
+                            <div class="solution-step">Попробуйте подключить монитор к другому порту или видеокарте</div>
+                            <div class="solution-step">Сбросьте настройки BIOS</div>
+                            <div class="solution-step">Проверьте оперативную память (переустановите, протестируйте)</div>
+                        </div>
+                        
+                        <div id="boot2" class="solution">
+                            <h3><i class="fas fa-hourglass-half"></i> Компьютер зависает при загрузке</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
+                                <li>Повреждение системных файлов</li>
+                                <li>Конфликт драйверов</li>
+                                <li>Проблемы с жестким диском</li>
+                                <li>Перегрев компонентов</li>
+                            </ul>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Загрузитесь в безопасном режиме</div>
+                            <div class="solution-step">Выполните проверку системных файлов</div>
+                            <div class="solution-step">Проверьте жесткий диск на ошибки</div>
+                            <div class="solution-step">Обновите или откатите драйверы</div>
+                        </div>
+                    <div id="boot3" class="solution">
+                        <h3><i class="fas fa-hourglass-half"></i>Синий экран (BSOD)</h3>
+                         <p><strong>Возможные причины:</strong></p>
+                         <ul> 
+                            <li>Конфликт драйверов устройств</li>
+                            <li>Проблемы с оперативной памятью</li>
+                            <li>Ошибки жесткого диска</li>
+                            <li>Перегрев компонентов</li>
+                         </ul>
+                         <p><strong>✘ Решение:</strong></p>
+                            <div class="solution-step">✓ Запишите код ошибки BSOD для диагностики</div>
+                            <div class="solution-step">✓ Обновите или откатите недавно установленные драйверы</div>
+                            <div class="solution-step">✓ Протестируйте оперативную память с помощью Memtest86+</div>
+                            <div class="solution-step">✓ Проверьте жесткий диск на ошибки</div>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-tachometer-alt"></i> Проблемы с производительностью
+                        <span class="icon">⚡</span>
+                    </div>
+                    <div class="card-body">
+                        <ul class="problem-list">
+                            <li class="problem-item" data-solution="perf1">Медленная работа системы</li>
+                            <li class="problem-item" data-solution="perf2">Сильный шум при работе</li>
+                            <li class="problem-item" data-solution="perf3">Частые зависания</li>
+                        </ul>
+                        
+                        <div id="perf1" class="solution">
+                            <h3><i class="fas fa-snail"></i> Медленная работа системы</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
+                                <li>Недостаточно оперативной памяти</li>
+                                <li>Переполненный жесткий диск</li>
+                                <li>Фоновые процессы и вирусы</li>
+                                <li>Устаревшие драйверы</li>
+                            </ul>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Очистите диск от ненужных файлов</div>
+                            <div class="solution-step">Добавьте оперативной памяти</div>
+                            <div class="solution-step">Проверьте систему на вирусы</div>
+                            <div class="solution-step">Обновите драйверы устройств</div>
+                            <div class="solution-step">Рассмотрите переход на SSD</div>
+                        </div>
+                        
+                        <div id="perf2" class="solution">
+                            <h3><i class="fas fa-volume-up"></i> Сильный шум при работе</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
+                                <li>Запыленность системы охлаждения</li>
+                                <li>Износ вентиляторов</li>
+                                <li>Вибрация компонентов</li>
+                                <li>Высокая нагрузка на систему</li>
+                            </ul>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Очистите систему от пыли</div>
+                            <div class="solution-step">Замените изношенные вентиляторы</div>
+                            <div class="solution-step">Закрепите незафиксированные компоненты</div>
+                            <div class="solution-step">Проверьте температурный режим работы</div>
+                        </div>
+                        <div id="perf3" class="solution">
+                            <h3>✔ <i class="fas fa-pause"></i> Частые зависания</h3>
+                             <p><strong>Возможные причины:</strong></p>
+                             <ul>
+                                <li>Недостаток оперативной памяти</li>
+                                <li>Перегрев процессора или видеокарты</li>
+                                <li>Проблемы с жестким диском</li>
+                                <li>Конфликт программного обеспечения</li>
+                            </ul>
+                            <p><strong>✘ Решение:</strong></p>
+                            <div class="solution-step">✓ Проверьте использование оперативной памяти</div>
+                            <div class="solution-step">✓ Очистите систему охлаждения от пыли</div>
+                            <div class="solution-step">✓ Проверьте температуру компонентов</div>
+                            <div class="solution-step">✓ Выполните проверку диска на ошибки</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="components" class="tab-content">
+            <h2><i class="fas fa-microchip"></i> Основные компоненты компьютера</h2>
+            <p>Информация об основных компонентах ПК, их назначении и типичных неисправностях:</p>
+            
+            <div class="component-grid">
+                <div class="component">
+                    <i class="fas fa-sitemap"></i>
+                    <h3>Материнская плата</h3>
+                    <p>Основная плата, соединяющая все компоненты компьютера</p>
+                </div>
+                
+                <div class="component">
+                    <i class="fas fa-plug"></i>
+                    <h3>Блок питания</h3>
+                    <p>Преобразует сетевое напряжение и обеспечивает питание компонентов</p>
+                </div>
+                
+                <div class="component">
+                    <i class="fas fa-brain"></i>
+                    <h3>Процессор (CPU)</h3>
+                    <p>Центральный процессор - "мозг" компьютера</p>
+                </div>
+                
+                <div class="component">
+                    <i class="fas fa-memory"></i>
+                    <h3>Оперативная память (RAM)</h3>
+                    <p>Временное хранилище данных для быстрого доступа</p>
+                </div>
+                
+                <div class="component">
+                    <i class="fas fa-desktop"></i>
+                    <h3>Видеокарта (GPU)</h3>
+                    <p>Обрабатывает графику и выводит изображение на монитор</p>
+                </div>
+                
+                <div class="component">
+                    <i class="fas fa-hdd"></i>
+                    <h3>Накопители (HDD/SSD)</h3>
+                    <p>Устройства для постоянного хранения данных</p>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <i class="fas fa-stethoscope"></i> Диагностика компонентов
+                </div>
+                <div class="card-body">
+                    <h3>Методы диагностики основных компонентов</h3>
+                    
+                    <h4><i class="fas fa-sitemap"></i> Материнская плата</h4>
+                    <ul>
+                        <li>Визуальный осмотр на предмет повреждений и вздутых конденсаторов</li>
+                        <li>Проверка POST-кодов (если доступно)</li>
+                        <li>Тестирование с минимальной конфигурацией</li>
+                    </ul>
+                    
+                    <h4><i class="fas fa-plug"></i> Блок питания</h4>
+                    <ul>
+                        <li>Проверка напряжения на разъемах мультиметром</li>
+                        <li>Тест "скрепкой" (замыкание контактов PS_ON и GND)</li>
+                        <li>Замена на заведомо исправный БП</li>
+                    </ul>
+                    
+                    <h4><i class="fas fa-memory"></i> Оперативная память</h4>
+                    <ul>
+                        <li>Тестирование с помощью Memtest86+</li>
+                        <li>Проверка в разных слотах материнской платы</li>
+                        <li>Замена на заведомо исправные модули</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="tools" class="tab-content">
+            <h2><i class="fas fa-wrench"></i> Инструменты и программное обеспечение</h2>
+            <p>Необходимые инструменты и программы для диагностики и ремонта компьютеров:</p>
+            
+            <h3><i class="fas fa-tools"></i> Аппаратные инструменты</h3>
+            <table class="tool-table">
+                <thead>
+                    <tr>
+                        <th>Инструмент</th>
+                        <th>Назначение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-bolt"></i> Мультиметр</td>
+                        <td>Измерение напряжения, сопротивления, проверка целостности цепей</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-screwdriver"></i> Набор отверток</td>
+                        <td>Разборка и сборка компонентов</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-user-shield"></i> Антистатический браслет</td>
+                        <td>Защита компонентов от статического электричества</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-temperature-high"></i> Термопаста</td>
+                        <td>Обеспечение теплопроводности между процессором и радиатором</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-microchip"></i> POST-карта</td>
+                        <td>Диагностика материнской платы по кодам ошибок</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="margin-top: 2rem;"><i class="fas fa-laptop-code"></i> Программное обеспечение</h3>
+            <table class="tool-table">
+                <thead>
+                    <tr>
+                        <th>Программа</th>
+                        <th>Назначение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-memory"></i> Memtest86+</td>
+                        <td>Тестирование оперативной памяти</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-hdd"></i> CrystalDiskInfo</td>
+                        <td>Проверка состояния жестких дисков и SSD</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-thermometer-half"></i> HWMonitor</td>
+                        <td>Мониторинг температуры и напряжения компонентов</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-search"></i> Victoria</td>
+                        <td>Углубленная диагностика жестких дисков</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-chart-bar"></i> AIDA64</td>
+                        <td>Комплексная диагностика и тестирование системы</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="quiz" class="tab-content">
+            <h2><i class="fas fa-graduation-cap"></i> Проверка знаний</h2>
+            <p>Пройдите тест для проверки своих знаний по техническому обслуживанию компьютеров:</p>
+            
+            <div class="quiz-container" id="quiz-container">
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    Вопрос <span id="current-question">1</span> из <span id="total-questions">5</span>
+                </div>
+                
+                <div class="quiz-question" id="question-text">
+                    1. Что следует проверить в первую очередь, если компьютер не включается?
+                </div>
+                
+                <div class="quiz-options" id="options-container">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+                
+                <div class="quiz-navigation">
+                    <button class="btn btn-secondary" id="prev-btn" disabled>
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
+                    <button class="btn" id="next-btn">
+                        Следующий вопрос <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-primary" id="submit-btn" style="display: none;">
+                        <i class="fas fa-check-circle"></i> Завершить тест
+                    </button>
+                </div>
+            </div>
+            
+            <div class="quiz-results" id="results-container" style="display: none;">
+                <h3><i class="fas fa-trophy"></i> Результаты теста</h3>
+                <div class="score-circle" id="score-circle">
+                    <span id="score-percent">0%</span>
+                </div>
+                <p id="score-text">Вы ответили правильно на <span id="correct-answers">0</span> из <span id="total-answers">5</span> вопросов</p>
+                
+                <div class="answers-review" id="answers-review">
+                    <!-- Review will be populated by JavaScript -->
+                </div>
+                
+                <button class="btn" id="restart-btn">
+                    <i class="fas fa-redo"></i> Пройти тест заново
+                </button>
+            </div>
+        </div>
+        
+        <!-- Раздел сборки ПК -->
+        <div id="builder" class="tab-content">
+            <h2><i class="fas fa-computer"></i> Конфигуратор сборки ПК</h2>
+            <p>Соберите свой идеальный компьютер, выбирая компоненты:</p>
+            
+            <div class="pc-builder">
+                <div class="component-selector">
+                    <div class="form-group">
+                        <label for="cpu"><i class="fas fa-microchip"></i> Процессор</label>
+                        <select id="cpu">
+                            <option value="">Выберите процессор</option>
+                            <option value="i9" data-price="45000">Intel Core i9-13900K - 45 000₽</option>
+                            <option value="i7" data-price="30000">Intel Core i7-13700K - 30 000₽</option>
+                            <option value="ryzen9" data-price="40000">AMD Ryzen 9 7900X - 40 000₽</option>
+                            <option value="ryzen7" data-price="25000">AMD Ryzen 7 7700X - 25 000₽</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gpu"><i class="fas fa-desktop"></i> Видеокарта</label>
+                        <select id="gpu">
+                            <option value="">Выберите видеокарту</option>
+                            <option value="rtx4090" data-price="150000">NVIDIA RTX 4090 - 150 000₽</option>
+                            <option value="rtx4080" data-price="100000">NVIDIA RTX 4080 - 100 000₽</option>
+                            <option value="rx7900" data-price="80000">AMD RX 7900 XTX - 80 000₽</option>
+                            <option value="rtx4070" data-price="60000">NVIDIA RTX 4070 - 60 000₽</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ram"><i class="fas fa-memory"></i> Оперативная память</label>
+                        <select id="ram">
+                            <option value="">Выберите ОЗУ</option>
+                            <option value="ram32" data-price="8000">32GB DDR5 - 8 000₽</option>
+                            <option value="ram16" data-price="4000">16GB DDR5 - 4 000₽</option>
+                            <option value="ram64" data-price="15000">64GB DDR5 - 15 000₽</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="storage"><i class="fas fa-hdd"></i> Накопитель</label>
+                        <select id="storage">
+                            <option value="">Выберите накопитель</option>
+                            <option value="ssd2tb" data-price="10000">SSD 2TB - 10 000₽</option>
+                            <option value="ssd1tb" data-price="5000">SSD 1TB - 5 000₽</option>
+                            <option value="hdd4tb" data-price="6000">HDD 4TB - 6 000₽</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motherboard"><i class="fas fa-sitemap"></i> Материнская плата</label>
+                        <select id="motherboard">
+                            <option value="">Выберите материнскую плату</option>
+                            <option value="z790" data-price="25000">ASUS ROG Z790 - 25 000₽</option>
+                            <option value="b760" data-price="15000">MSI B760 - 15 000₽</option>
+                            <option value="x670" data-price="20000">Gigabyte X670 - 20 000₽</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="psu"><i class="fas fa-plug"></i> Блок питания</label>
+                        <select id="psu">
+                            <option value="">Выберите БП</option>
+                            <option value="psu1000" data-price="12000">1000W 80+ Gold - 12 000₽</option>
+                            <option value="psu850" data-price="8000">850W 80+ Bronze - 8 000₽</option>
+                            <option value="psu750" data-price="6000">750W 80+ Bronze - 6 000₽</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn" id="calculatePrice">
+                    <i class="fas fa-calculator"></i> Рассчитать стоимость
+                </button>
+                
+                <div class="selected-components" id="selectedComponents" style="display: none;">
+                    <h3>Выбранные компоненты:</h3>
+                    <div id="componentsList"></div>
+                    <div class="total-price" id="totalPrice"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Раздел отзывов -->
+        <div id="reviews" class="tab-content">
+            <h2><i class="fas fa-comments"></i> Отзывы о сайте</h2>
+            <p>Поделитесь своим мнением о нашем справочнике:</p>
+            
+            <div class="form-container">
+                <h3>Оставить отзыв</h3>
+                <form id="reviewForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reviewName">Ваше имя</label>
+                            <input type="text" id="reviewName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewRating">Оценка</label>
+                            <select id="reviewRating" required>
+                                <option value="5">★★★★★ Отлично</option>
+                                <option value="4">★★★★☆ Хорошо</option>
+                                <option value="3">★★★☆☆ Удовлетворительно</option>
+                                <option value="2">★★☆☆☆ Плохо</option>
+                                <option value="1">★☆☆☆☆ Очень плохо</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewText">Текст отзыва</label>
+                        <textarea id="reviewText" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-paper-plane"></i> Отправить отзыв
+                    </button>
+                </form>
+            </div>
+            
+            <div class="reviews-container" id="reviewsList">
+                <!-- Отзывы будут добавляться здесь -->
+            </div>
+        </div>
+        
+        <!-- Раздел регистрации/входа -->
+        <div id="auth" class="tab-content">
+            <h2><i class="fas fa-user"></i> Регистрация и вход</h2>
+            
+            <div class="form-container">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <h3>Регистрация</h3>
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label for="regName">Имя</label>
+                                <input type="text" id="regName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="regEmail">Email</label>
+                                <input type="email" id="regEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="regPassword">Пароль</label>
+                                <input type="password" id="regPassword" required>
+                            </div>
+                            <button type="submit" class="btn">
+                                <i class="fas fa-user-plus"></i> Зарегистрироваться
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="form-group" style="flex: 1;">
+                        <h3>Вход</h3>
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input type="email" id="loginEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Пароль</label>
+                                <input type="password" id="loginPassword" required>
+                            </div>
+                            <button type="submit" class="btn">
+                                <i class="fas fa-sign-in-alt"></i> Войти
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div id="userWelcome" style="display: none; text-align: center; padding: 2rem; background: #e8f4fc; border-radius: 10px; margin-top: 2rem;">
+                    <h3><i class="fas fa-check-circle"></i> Добро пожаловать!</h3>
+                    <p>Вы успешно вошли в систему как <span id="userEmail"></span></p>
+                    <button class="btn btn-secondary" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="floating-buttons">
+        <button class="floating-btn home" title="На главную">
+            <i class="fas fa-home"></i>
+        </button>
+        <button class="floating-btn quiz" title="Пройти тест">
+            <i class="fas fa-graduation-cap"></i>
+        </button>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p><i class="fas fa-tools"></i> Справочник по техническому обслуживанию и ремонту компьютерных систем</p>
+            <p>© 2025 Все права защищены</p>
+        </div>
+    </footer>
+
+    <script>
+        // Данные теста
+        const quizData = [
+            {
+                question: "Что следует проверить в первую очередь, если компьютер не включается?",
+                options: [
+                    "Подключение к электросети и исправность кабеля питания",
+                    "Состояние оперативной памяти",
+                    "Настройки BIOS",
+                    "Исправность видеокарты"
+                ],
+                correct: 0
+            },
+            {
+                question: "Какой инструмент используется для измерения напряжения в блоке питания?",
+                options: [
+                    "Осциллограф",
+                    "Мультиметр",
+                    "Логический анализатор",
+                    "Термометр"
+                ],
+                correct: 1
+            },
+            {
+                question: "Какая программа используется для тестирования оперативной памяти?",
+                options: [
+                    "CrystalDiskInfo",
+                    "HWMonitor",
+                    "Memtest86+",
+                    "Victoria"
+                ],
+                correct: 2
+            },
+            {
+                question: "Что может вызвать самопроизвольное выключение компьютера?",
+                options: [
+                    "Перегрев компонентов",
+                    "Слишком быстрый процессор",
+                    "Избыток оперативной памяти",
+                    "Слишком большой монитор"
+                ],
+                correct: 0
+            },
+            {
+                question: "Какой компонент отвечает за обработку графики в компьютере?",
+                options: [
+                    "Процессор (CPU)",
+                    "Оперативная память (RAM)",
+                    "Видеокарта (GPU)",
+                    "Материнская плата"
+                ],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        let quizCompleted = false;
+
+        // Управление скрытыми элементами
+        let menuVisible = false;
+        
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            const searchBox = document.getElementById('searchBox');
+            const quickActions = document.getElementById('quickActions');
+            const navTabs = document.getElementById('navTabs');
+            
+            menuVisible = !menuVisible;
+            
+            if (menuVisible) {
+                searchBox.classList.add('active');
+                setTimeout(() => quickActions.classList.add('active'), 200);
+                setTimeout(() => navTabs.classList.add('active'), 400);
+                this.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                navTabs.classList.remove('active');
+                setTimeout(() => quickActions.classList.remove('active'), 200);
+                setTimeout(() => searchBox.classList.remove('active'), 400);
+                this.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Функция отображения вопроса
+        function showQuestion() {
+            const question = quizData[currentQuestion];
+            document.getElementById('question-text').textContent = `${currentQuestion + 1}. ${question.question}`;
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.getElementById('total-questions').textContent = quizData.length;
+            
+            // Обновляем прогресс-бар
+            const progressPercent = ((currentQuestion) / quizData.length) * 100;
+            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const label = document.createElement('label');
+                label.className = 'quiz-option';
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'quiz-answer';
+                input.value = index;
+                
+                // Восстанавливаем выбранный ответ, если он есть
+                if (userAnswers[currentQuestion] === index) {
+                    input.checked = true;
+                    label.classList.add('selected');
+                }
+                
+                input.addEventListener('change', function() {
+                    // Убираем выделение у всех вариантов
+                    document.querySelectorAll('.quiz-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Добавляем выделение выбранному варианту
+                    if (this.checked) {
+                        this.parentElement.classList.add('selected');
+                        userAnswers[currentQuestion] = parseInt(this.value);
+                    }
+                    
+                    updateNavigationButtons();
+                });
+                
+                const span = document.createElement('span');
+                span.className = 'option-text';
+                span.textContent = option;
+                
+                label.appendChild(input);
+                label.appendChild(span);
+                optionsContainer.appendChild(label);
+            });
+            
+            updateNavigationButtons();
+        }
+
+        // Функция обновления кнопок навигации
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            // Кнопка "Назад"
+            prevBtn.disabled = currentQuestion === 0;
+            
+            // Кнопка "Следующий вопрос" / "Завершить тест"
+            const hasAnswer = userAnswers[currentQuestion] !== null;
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = hasAnswer ? 'inline-flex' : 'none';
+            } else {
+                nextBtn.style.display = hasAnswer ? 'inline-flex' : 'none';
+                submitBtn.style.display = 'none';
+            }
+            
+            nextBtn.disabled = !hasAnswer;
+        }
+
+        // Функция показа результатов
+        function showResults() {
+            let correctCount = 0;
+            
+            // Считаем правильные ответы
+            userAnswers.forEach((answer, index) => {
+                if (answer === quizData[index].correct) {
+                    correctCount++;
+                }
+            });
+            
+            const percent = Math.round((correctCount / quizData.length) * 100);
+            
+            // Обновляем результаты
+            document.getElementById('correct-answers').textContent = correctCount;
+            document.getElementById('total-answers').textContent = quizData.length;
+            document.getElementById('score-percent').textContent = `${percent}%`;
+            
+            // Обновляем круг с результатами
+            const scoreCircle = document.getElementById('score-circle');
+            scoreCircle.style.background = `conic-gradient(var(--success) ${percent}%, #e9ecef ${percent}%)`;
+            
+            // Добавляем класс в зависимости от результата
+            scoreCircle.className = 'score-circle';
+            if (percent >= 80) scoreCircle.classList.add('excellent');
+            else if (percent >= 60) scoreCircle.classList.add('good');
+            else if (percent >= 40) scoreCircle.classList.add('average');
+            else scoreCircle.classList.add('poor');
+            
+            // Показываем детали по ответам
+            const answersReview = document.getElementById('answers-review');
+            answersReview.innerHTML = '';
+            
+            quizData.forEach((question, index) => {
+                const isCorrect = userAnswers[index] === question.correct;
+                const reviewItem = document.createElement('div');
+                reviewItem.className = `answer-review-item ${isCorrect ? 'answer-correct' : 'answer-incorrect'}`;
+                
+                reviewItem.innerHTML = `
+                    <strong>Вопрос ${index + 1}:</strong> ${question.question}<br>
+                    <strong>Ваш ответ:</strong> ${question.options[userAnswers[index]] || 'Нет ответа'}<br>
+                    ${!isCorrect ? `<strong>Правильный ответ:</strong> ${question.options[question.correct]}` : ''}
+                `;
+                
+                answersReview.appendChild(reviewItem);
+            });
+            
+            // Показываем результаты, скрываем тест
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('results-container').style.display = 'block';
+            quizCompleted = true;
+        }
+
+        // Сборка ПК
+        document.getElementById('calculatePrice').addEventListener('click', function() {
+            const components = [
+                { id: 'cpu', name: 'Процессор' },
+                { id: 'gpu', name: 'Видеокарта' },
+                { id: 'ram', name: 'Оперативная память' },
+                { id: 'storage', name: 'Накопитель' },
+                { id: 'motherboard', name: 'Материнская плата' },
+                { id: 'psu', name: 'Блок питания' }
+            ];
+            
+            let totalPrice = 0;
+            let componentsHTML = '';
+            let hasSelection = false;
+            
+            components.forEach(comp => {
+                const select = document.getElementById(comp.id);
+                const selectedOption = select.options[select.selectedIndex];
+                
+                if (selectedOption.value) {
+                    hasSelection = true;
+                    const price = parseInt(selectedOption.getAttribute('data-price'));
+                    totalPrice += price;
+                    
+                    componentsHTML += `
+                        <div class="component-item">
+                            <span>${comp.name}: ${selectedOption.text}</span>
+                            <span>${price.toLocaleString()}₽</span>
+                        </div>
+                    `;
+                }
+            });
+            
+            if (hasSelection) {
+                document.getElementById('componentsList').innerHTML = componentsHTML;
+                document.getElementById('totalPrice').innerHTML = `Итого: ${totalPrice.toLocaleString()}₽`;
+                document.getElementById('selectedComponents').style.display = 'block';
+            } else {
+                alert('Выберите хотя бы один компонент!');
+            }
+        });
+
+        // Система отзывов
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('reviewName').value;
+            const rating = document.getElementById('reviewRating').value;
+            const text = document.getElementById('reviewText').value;
+            
+            const reviewHTML = `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-author">${name}</div>
+                        <div class="review-rating">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div>
+                    </div>
+                    <div class="review-text">${text}</div>
+                    <div class="review-date">${new Date().toLocaleDateString('ru-RU')}</div>
+                </div>
+            `;
+            
+            document.getElementById('reviewsList').insertAdjacentHTML('afterbegin', reviewHTML);
+            this.reset();
+            alert('Спасибо за ваш отзыв!');
+        });
+
+        // Система регистрации/входа
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            
+            // Сохраняем пользователя
+            const user = { name, email, password };
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('userEmail', email);
+            
+            updateUserInterface();
+            this.reset();
+            alert('Регистрация успешна!');
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Проверяем пользователя
+            const storedUser = localStorage.getItem('currentUser');
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                if (user.email === email && user.password === password) {
+                    localStorage.setItem('userEmail', email);
+                    updateUserInterface();
+                    this.reset();
+                    alert('Вход выполнен!');
+                    return;
+                }
+            }
+            alert('Неверный email или пароль!');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('userEmail');
+            updateUserInterface();
+            alert('Вы вышли из системы!');
+        });
+
+        function updateUserInterface() {
+            const userEmail = localStorage.getItem('userEmail');
+            const authTab = document.querySelector('[data-tab="auth"]');
+            const authTabText = document.getElementById('authTabText');
+            const userWelcome = document.getElementById('userWelcome');
+            const userEmailSpan = document.getElementById('userEmail');
+            
+            if (userEmail) {
+                authTabText.textContent = userEmail;
+                userWelcome.style.display = 'block';
+                userEmailSpan.textContent = userEmail;
+                document.getElementById('registerForm').style.display = 'none';
+                document.getElementById('loginForm').style.display = 'none';
+            } else {
+                authTabText.textContent = 'Регистрация/Вход';
+                userWelcome.style.display = 'none';
+                document.getElementById('registerForm').style.display = 'block';
+                document.getElementById('loginForm').style.display = 'block';
+            }
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            showQuestion();
+            updateUserInterface();
+            
+            // Переключение между вкладками
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    // Убираем активный класс у всех кнопок и вкладок
+                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Добавляем активный класс к текущей кнопке и вкладке
+                    button.classList.add('active');
+                    document.getElementById(button.dataset.tab).classList.add('active');
+                });
+            });
+            
+            // Добавляем обработчики для быстрых кнопок
+            document.querySelectorAll('.quick-action-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.dataset.tab;
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+                    document.getElementById(tab).classList.add('active');
+                });
+            });
+
+            // Плавающие кнопки
+            document.querySelector('.floating-btn.home').addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                document.querySelector('[data-tab="problems"]').classList.add('active');
+                document.getElementById('problems').classList.add('active');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            document.querySelector('.floating-btn.quiz').addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                document.querySelector('[data-tab="quiz"]').classList.add('active');
+                document.getElementById('quiz').classList.add('active');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Улучшенные обработчики для проблем
+            document.querySelectorAll('.problem-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Убираем активный класс у всех проблем
+                    document.querySelectorAll('.problem-item').forEach(i => i.classList.remove('active'));
+                    // Добавляем активный класс текущей проблеме
+                    this.classList.add('active');
+                    
+                    // Скрываем все решения
+                    document.querySelectorAll('.solution').forEach(solution => {
+                        solution.classList.remove('active');
+                    });
+                    
+                    // Показываем выбранное решение
+                    const solutionId = this.dataset.solution;
+                    document.getElementById(solutionId).classList.add('active');
+                    
+                    // Плавная прокрутка к решению
+                    document.getElementById(solutionId).scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                });
+            });
+
+            // Обработчики событий для теста
+            document.getElementById('next-btn').addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    showQuestion();
+                }
+            });
+
+            document.getElementById('prev-btn').addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    showQuestion();
+                }
+            });
+
+            document.getElementById('submit-btn').addEventListener('click', showResults);
+
+            document.getElementById('restart-btn').addEventListener('click', function() {
+                // Сброс теста
+                currentQuestion = 0;
+                userAnswers = new Array(quizData.length).fill(null);
+                quizCompleted = false;
+                
+                // Сброс выбора
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Показываем первый вопрос
+                document.getElementById('quiz-container').style.display = 'block';
+                document.getElementById('results-container').style.display = 'none';
+                
+                showQuestion();
+            });
+
+            // Простой поиск
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                if (searchTerm.length < 2) {
+                    // Сбрасываем выделение, если поиск пустой
+                    document.querySelectorAll('.problem-item').forEach(item => {
+                        item.style.backgroundColor = '';
+                    });
+                    document.querySelectorAll('.component h3').forEach(component => {
+                        component.parentElement.style.backgroundColor = '';
+                    });
+                    document.querySelectorAll('.tool-table td').forEach(cell => {
+                        cell.style.backgroundColor = '';
+                    });
+                    return;
+                }
+                
+                // Поиск по проблемам
+                document.querySelectorAll('.problem-item').forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        item.style.backgroundColor = '#fff3cd';
+                        // Показываем соответствующую вкладку
+                        document.querySelector('[data-tab="problems"]').click();
+                        // Показываем решение
+                        const solutionId = item.dataset.solution;
+                        document.querySelectorAll('.solution').forEach(solution => {
+                            solution.classList.remove('active');
+                        });
+                        document.getElementById(solutionId).classList.add('active');
+                    } else {
+                        item.style.backgroundColor = '';
+                    }
+                });
+                
+                // Поиск по компонентам
+                document.querySelectorAll('.component h3').forEach(component => {
+                    const text = component.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        component.parentElement.style.backgroundColor = '#fff3cd';
+                        document.querySelector('[data-tab="components"]').click();
+                    } else {
+                        component.parentElement.style.backgroundColor = '';
+                    }
+                });
+                
+                // Поиск по инструментам
+                document.querySelectorAll('.tool-table td').forEach(cell => {
+                    const text = cell.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        cell.style.backgroundColor = '#fff3cd';
+                        document.querySelector('[data-tab="tools"]').click();
+                    } else {
+                        cell.style.backgroundColor = '';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

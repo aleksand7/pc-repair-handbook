@@ -6,6 +6,7 @@
     <title>Справочник по обслуживанию и ремонту компьютерных систем</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ... (все стили остаются без изменений, как в вашем файле) ... */
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
@@ -32,7 +33,6 @@
             min-height: 100vh;
         }
         
-        /* Стили для скрытых элементов */
         .hidden-element {
             opacity: 0;
             transform: translateY(-20px);
@@ -47,7 +47,6 @@
             max-height: 500px;
         }
         
-        /* Кнопка показа/скрытия */
         .toggle-btn {
             position: fixed;
             top: 20px;
@@ -458,7 +457,6 @@
             border-bottom: none;
         }
         
-        /* Стили для теста */
         .quiz-progress {
             text-align: center;
             margin-bottom: 2rem;
@@ -654,7 +652,6 @@
             border-left: 5px solid var(--accent);
         }
         
-        /* Стили для форм */
         .form-container {
             background: white;
             border-radius: 15px;
@@ -702,7 +699,6 @@
             flex: 1;
         }
         
-        /* Стили для сборки ПК */
         .pc-builder {
             background: white;
             border-radius: 15px;
@@ -746,7 +742,6 @@
             border-top: 2px solid #e9ecef;
         }
         
-        /* Стили для отзывов */
         .reviews-container {
             display: grid;
             gap: 1.5rem;
@@ -784,17 +779,6 @@
         
         .review-date {
             color: #6c757d;
-            font-size: 0.9rem;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--success);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
             font-size: 0.9rem;
         }
         
@@ -904,7 +888,6 @@
     </style>
 </head>
 <body>
-    <!-- Кнопка показа/скрытия меню -->
     <button class="toggle-btn" id="menuToggle">
         <i class="fas fa-bars"></i>
     </button>
@@ -914,62 +897,33 @@
             <h1><i class="fas fa-tools"></i> Техническое обслуживание и ремонт компьютерных систем</h1>
             <p class="intro">Интерактивный справочник по диагностике, обслуживанию и ремонту компьютерного оборудования. Найдите решение для любой проблемы!</p>
             
-            <!-- Скрытый поиск -->
             <div class="search-box hidden-element" id="searchBox">
                 <input type="text" id="searchInput" placeholder="🔍 Поиск по проблемам, компонентам, инструментам...">
             </div>
             
-            <!-- Скрытые быстрые кнопки -->
             <div class="quick-actions hidden-element" id="quickActions">
-                <button class="quick-action-btn" data-tab="problems">
-                    <i class="fas fa-bolt"></i> Быстрые решения
-                </button>
-                <button class="quick-action-btn" data-tab="components">
-                    <i class="fas fa-desktop"></i> Компоненты ПК
-                </button>
-                <button class="quick-action-btn" data-tab="tools">
-                    <i class="fas fa-toolbox"></i> Инструменты
-                </button>
-                <button class="quick-action-btn" data-tab="quiz">
-                    <i class="fas fa-graduation-cap"></i> Тест знаний
-                </button>
-                <button class="quick-action-btn" data-tab="builder">
-                    <i class="fas fa-computer"></i> Сборка ПК
-                </button>
-                <button class="quick-action-btn" data-tab="reviews">
-                    <i class="fas fa-star"></i> Отзывы
-                </button>
+                <button class="quick-action-btn" data-tab="problems"><i class="fas fa-bolt"></i> Быстрые решения</button>
+                <button class="quick-action-btn" data-tab="components"><i class="fas fa-desktop"></i> Компоненты ПК</button>
+                <button class="quick-action-btn" data-tab="tools"><i class="fas fa-toolbox"></i> Инструменты</button>
+                <button class="quick-action-btn" data-tab="quiz"><i class="fas fa-graduation-cap"></i> Тест знаний</button>
+                <button class="quick-action-btn" data-tab="builder"><i class="fas fa-computer"></i> Сборка ПК</button>
+                <button class="quick-action-btn" data-tab="reviews"><i class="fas fa-star"></i> Отзывы</button>
             </div>
         </div>
     </header>
     
     <div class="container">
-        <!-- Скрытая навигация -->
         <div class="nav-tabs hidden-element" id="navTabs">
-            <button class="tab-btn active" data-tab="problems">
-                <i class="fas fa-exclamation-triangle"></i> Типичные проблемы
-            </button>
-            <button class="tab-btn" data-tab="components">
-                <i class="fas fa-microchip"></i> Компоненты ПК
-            </button>
-            <button class="tab-btn" data-tab="tools">
-                <i class="fas fa-wrench"></i> Инструменты и ПО
-            </button>
-            <button class="tab-btn" data-tab="quiz">
-                <i class="fas fa-question-circle"></i> Проверка знаний
-            </button>
-            <button class="tab-btn" data-tab="builder">
-                <i class="fas fa-computer"></i> Сборка ПК
-            </button>
-            <button class="tab-btn" data-tab="reviews">
-                <i class="fas fa-comments"></i> Отзывы
-            </button>
-            <button class="tab-btn" data-tab="auth">
-                <i class="fas fa-user"></i> <span id="authTabText">Регистрация/Вход</span>
-            </button>
+            <button class="tab-btn active" data-tab="problems"><i class="fas fa-exclamation-triangle"></i> Типичные проблемы</button>
+            <button class="tab-btn" data-tab="components"><i class="fas fa-microchip"></i> Компоненты ПК</button>
+            <button class="tab-btn" data-tab="tools"><i class="fas fa-wrench"></i> Инструменты и ПО</button>
+            <button class="tab-btn" data-tab="quiz"><i class="fas fa-question-circle"></i> Проверка знаний</button>
+            <button class="tab-btn" data-tab="builder"><i class="fas fa-computer"></i> Сборка ПК</button>
+            <button class="tab-btn" data-tab="reviews"><i class="fas fa-comments"></i> Отзывы</button>
+            <button class="tab-btn" data-tab="auth"><i class="fas fa-user"></i> <span id="authTabText">Регистрация/Вход</span></button>
         </div>
         
-        <!-- Контентные разделы -->
+        <!-- Типичные проблемы -->
         <div id="problems" class="tab-content active">
             <h2><i class="fas fa-exclamation-triangle"></i> Распространенные проблемы и решения</h2>
             <p>Выберите проблему для просмотра возможных причин и пошаговых решений:</p>
@@ -1017,8 +971,9 @@
                             <div class="solution-step">Убедитесь, что БП обеспечивает достаточную мощность</div>
                             <div class="solution-step">Используйте ИБП для стабилизации напряжения</div>
                         </div>
+                        
                         <div id="power3" class="solution">
-                            <h3><i class="fas fa-power-off"></i>Нестабильная работа</h3>
+                            <h3><i class="fas fa-power-off"></i> Нестабильная работа</h3>
                             <p><strong>Возможные причины:</strong></p>
                             <ul>
                                 <li>Нестабильное напряжение от блока питания</li>
@@ -1026,11 +981,11 @@
                                 <li>Перегрев компонентов</li>
                                 <li>Неисправность материнской платы</li>
                             </ul>
-                            <p><strong><i class="=fas fa-tools">Решение:</i></strong></p>
-                            <div class="solution-step">✓ Проверьте блок питания мультиметром</div>
-                            <div class="solution-step">✓ Протестируйте оперативную память с помощью Memtest86+</div>
-                            <div class="solution-step">✓ Проверьте температуру компонентов под нагрузкой</div>
-                            <div class="solution-step">✓ Проверьте материнскую плату на вздутые конденсаторы</div>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Проверьте блок питания мультиметром</div>
+                            <div class="solution-step">Протестируйте оперативную память с помощью Memtest86+</div>
+                            <div class="solution-step">Проверьте температуру компонентов под нагрузкой</div>
+                            <div class="solution-step">Проверьте материнскую плату на вздутые конденсаторы</div>
                         </div>
                     </div>
                 </div>
@@ -1078,21 +1033,22 @@
                             <div class="solution-step">Проверьте жесткий диск на ошибки</div>
                             <div class="solution-step">Обновите или откатите драйверы</div>
                         </div>
-                    <div id="boot3" class="solution">
-                        <h3><i class="fas fa-hourglass-half"></i>Синий экран (BSOD)</h3>
-                         <p><strong>Возможные причины:</strong></p>
-                         <ul> 
-                            <li>Конфликт драйверов устройств</li>
-                            <li>Проблемы с оперативной памятью</li>
-                            <li>Ошибки жесткого диска</li>
-                            <li>Перегрев компонентов</li>
-                         </ul>
-                         <p><strong>✘ Решение:</strong></p>
-                            <div class="solution-step">✓ Запишите код ошибки BSOD для диагностики</div>
-                            <div class="solution-step">✓ Обновите или откатите недавно установленные драйверы</div>
-                            <div class="solution-step">✓ Протестируйте оперативную память с помощью Memtest86+</div>
-                            <div class="solution-step">✓ Проверьте жесткий диск на ошибки</div>
-                    </div>
+                        
+                        <div id="boot3" class="solution">
+                            <h3><i class="fas fa-hourglass-half"></i> Синий экран (BSOD)</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
+                                <li>Конфликт драйверов устройств</li>
+                                <li>Проблемы с оперативной памятью</li>
+                                <li>Ошибки жесткого диска</li>
+                                <li>Перегрев компонентов</li>
+                            </ul>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Запишите код ошибки BSOD для диагностики</div>
+                            <div class="solution-step">Обновите или откатите недавно установленные драйверы</div>
+                            <div class="solution-step">Протестируйте оперативную память с помощью Memtest86+</div>
+                            <div class="solution-step">Проверьте жесткий диск на ошибки</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -1140,25 +1096,28 @@
                             <div class="solution-step">Закрепите незафиксированные компоненты</div>
                             <div class="solution-step">Проверьте температурный режим работы</div>
                         </div>
+                        
                         <div id="perf3" class="solution">
-                            <h3>✔ <i class="fas fa-pause"></i> Частые зависания</h3>
-                             <p><strong>Возможные причины:</strong></p>
-                             <ul>
+                            <h3><i class="fas fa-pause"></i> Частые зависания</h3>
+                            <p><strong>Возможные причины:</strong></p>
+                            <ul>
                                 <li>Недостаток оперативной памяти</li>
                                 <li>Перегрев процессора или видеокарты</li>
                                 <li>Проблемы с жестким диском</li>
                                 <li>Конфликт программного обеспечения</li>
                             </ul>
-                            <p><strong>✘ Решение:</strong></p>
-                            <div class="solution-step">✓ Проверьте использование оперативной памяти</div>
-                            <div class="solution-step">✓ Очистите систему охлаждения от пыли</div>
-                            <div class="solution-step">✓ Проверьте температуру компонентов</div>
-                            <div class="solution-step">✓ Выполните проверку диска на ошибки</div>
+                            <p><strong><i class="fas fa-tools"></i> Решение:</strong></p>
+                            <div class="solution-step">Проверьте использование оперативной памяти</div>
+                            <div class="solution-step">Очистите систему охлаждения от пыли</div>
+                            <div class="solution-step">Проверьте температуру компонентов</div>
+                            <div class="solution-step">Выполните проверку диска на ошибки</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
+        <!-- Компоненты ПК -->
         <div id="components" class="tab-content">
             <h2><i class="fas fa-microchip"></i> Основные компоненты компьютера</h2>
             <p>Информация об основных компонентах ПК, их назначении и типичных неисправностях:</p>
@@ -1169,31 +1128,26 @@
                     <h3>Материнская плата</h3>
                     <p>Основная плата, соединяющая все компоненты компьютера</p>
                 </div>
-                
                 <div class="component">
                     <i class="fas fa-plug"></i>
                     <h3>Блок питания</h3>
                     <p>Преобразует сетевое напряжение и обеспечивает питание компонентов</p>
                 </div>
-                
                 <div class="component">
                     <i class="fas fa-brain"></i>
                     <h3>Процессор (CPU)</h3>
                     <p>Центральный процессор - "мозг" компьютера</p>
                 </div>
-                
                 <div class="component">
                     <i class="fas fa-memory"></i>
                     <h3>Оперативная память (RAM)</h3>
                     <p>Временное хранилище данных для быстрого доступа</p>
                 </div>
-                
                 <div class="component">
                     <i class="fas fa-desktop"></i>
                     <h3>Видеокарта (GPU)</h3>
                     <p>Обрабатывает графику и выводит изображение на монитор</p>
                 </div>
-                
                 <div class="component">
                     <i class="fas fa-hdd"></i>
                     <h3>Накопители (HDD/SSD)</h3>
@@ -1232,6 +1186,7 @@
             </div>
         </div>
         
+        <!-- Инструменты и ПО -->
         <div id="tools" class="tab-content">
             <h2><i class="fas fa-wrench"></i> Инструменты и программное обеспечение</h2>
             <p>Необходимые инструменты и программы для диагностики и ремонта компьютеров:</p>
@@ -1301,6 +1256,7 @@
             </table>
         </div>
         
+        <!-- Проверка знаний (Тест) -->
         <div id="quiz" class="tab-content">
             <h2><i class="fas fa-graduation-cap"></i> Проверка знаний</h2>
             <p>Пройдите тест для проверки своих знаний по техническому обслуживанию компьютеров:</p>
@@ -1317,9 +1273,7 @@
                     1. Что следует проверить в первую очередь, если компьютер не включается?
                 </div>
                 
-                <div class="quiz-options" id="options-container">
-                    <!-- Options will be populated by JavaScript -->
-                </div>
+                <div class="quiz-options" id="options-container"></div>
                 
                 <div class="quiz-navigation">
                     <button class="btn btn-secondary" id="prev-btn" disabled>
@@ -1341,9 +1295,7 @@
                 </div>
                 <p id="score-text">Вы ответили правильно на <span id="correct-answers">0</span> из <span id="total-answers">5</span> вопросов</p>
                 
-                <div class="answers-review" id="answers-review">
-                    <!-- Review will be populated by JavaScript -->
-                </div>
+                <div class="answers-review" id="answers-review"></div>
                 
                 <button class="btn" id="restart-btn">
                     <i class="fas fa-redo"></i> Пройти тест заново
@@ -1351,7 +1303,7 @@
             </div>
         </div>
         
-        <!-- Раздел сборки ПК -->
+        <!-- Сборка ПК -->
         <div id="builder" class="tab-content">
             <h2><i class="fas fa-computer"></i> Конфигуратор сборки ПК</h2>
             <p>Соберите свой идеальный компьютер, выбирая компоненты:</p>
@@ -1433,7 +1385,7 @@
             </div>
         </div>
         
-        <!-- Раздел отзывов -->
+        <!-- Отзывы -->
         <div id="reviews" class="tab-content">
             <h2><i class="fas fa-comments"></i> Отзывы о сайте</h2>
             <p>Поделитесь своим мнением о нашем справочнике:</p>
@@ -1467,12 +1419,10 @@
                 </form>
             </div>
             
-            <div class="reviews-container" id="reviewsList">
-                <!-- Отзывы будут добавляться здесь -->
-            </div>
+            <div class="reviews-container" id="reviewsList"></div>
         </div>
         
-        <!-- Раздел регистрации/входа -->
+        <!-- Регистрация/Вход -->
         <div id="auth" class="tab-content">
             <h2><i class="fas fa-user"></i> Регистрация и вход</h2>
             
@@ -1599,325 +1549,309 @@
             }
         ];
 
-        let currentQuestion = 0;
-        let userAnswers = new Array(quizData.length).fill(null);
-        let quizCompleted = false;
-
-        // Управление скрытыми элементами
-        let menuVisible = false;
-        
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            const searchBox = document.getElementById('searchBox');
-            const quickActions = document.getElementById('quickActions');
-            const navTabs = document.getElementById('navTabs');
-            
-            menuVisible = !menuVisible;
-            
-            if (menuVisible) {
-                searchBox.classList.add('active');
-                setTimeout(() => quickActions.classList.add('active'), 200);
-                setTimeout(() => navTabs.classList.add('active'), 400);
-                this.innerHTML = '<i class="fas fa-times"></i>';
-            } else {
-                navTabs.classList.remove('active');
-                setTimeout(() => quickActions.classList.remove('active'), 200);
-                setTimeout(() => searchBox.classList.remove('active'), 400);
-                this.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-
-        // Функция отображения вопроса
-        function showQuestion() {
-            const question = quizData[currentQuestion];
-            document.getElementById('question-text').textContent = `${currentQuestion + 1}. ${question.question}`;
-            document.getElementById('current-question').textContent = currentQuestion + 1;
-            document.getElementById('total-questions').textContent = quizData.length;
-            
-            // Обновляем прогресс-бар
-            const progressPercent = ((currentQuestion) / quizData.length) * 100;
-            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
-            
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach((option, index) => {
-                const label = document.createElement('label');
-                label.className = 'quiz-option';
-                
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.name = 'quiz-answer';
-                input.value = index;
-                
-                // Восстанавливаем выбранный ответ, если он есть
-                if (userAnswers[currentQuestion] === index) {
-                    input.checked = true;
-                    label.classList.add('selected');
-                }
-                
-                input.addEventListener('change', function() {
-                    // Убираем выделение у всех вариантов
-                    document.querySelectorAll('.quiz-option').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    
-                    // Добавляем выделение выбранному варианту
-                    if (this.checked) {
-                        this.parentElement.classList.add('selected');
-                        userAnswers[currentQuestion] = parseInt(this.value);
-                    }
-                    
-                    updateNavigationButtons();
-                });
-                
-                const span = document.createElement('span');
-                span.className = 'option-text';
-                span.textContent = option;
-                
-                label.appendChild(input);
-                label.appendChild(span);
-                optionsContainer.appendChild(label);
-            });
-            
-            updateNavigationButtons();
-        }
-
-        // Функция обновления кнопок навигации
-        function updateNavigationButtons() {
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const submitBtn = document.getElementById('submit-btn');
-            
-            // Кнопка "Назад"
-            prevBtn.disabled = currentQuestion === 0;
-            
-            // Кнопка "Следующий вопрос" / "Завершить тест"
-            const hasAnswer = userAnswers[currentQuestion] !== null;
-            
-            if (currentQuestion === quizData.length - 1) {
-                nextBtn.style.display = 'none';
-                submitBtn.style.display = hasAnswer ? 'inline-flex' : 'none';
-            } else {
-                nextBtn.style.display = hasAnswer ? 'inline-flex' : 'none';
-                submitBtn.style.display = 'none';
-            }
-            
-            nextBtn.disabled = !hasAnswer;
-        }
-
-        // Функция показа результатов
-        function showResults() {
-            let correctCount = 0;
-            
-            // Считаем правильные ответы
-            userAnswers.forEach((answer, index) => {
-                if (answer === quizData[index].correct) {
-                    correctCount++;
-                }
-            });
-            
-            const percent = Math.round((correctCount / quizData.length) * 100);
-            
-            // Обновляем результаты
-            document.getElementById('correct-answers').textContent = correctCount;
-            document.getElementById('total-answers').textContent = quizData.length;
-            document.getElementById('score-percent').textContent = `${percent}%`;
-            
-            // Обновляем круг с результатами
-            const scoreCircle = document.getElementById('score-circle');
-            scoreCircle.style.background = `conic-gradient(var(--success) ${percent}%, #e9ecef ${percent}%)`;
-            
-            // Добавляем класс в зависимости от результата
-            scoreCircle.className = 'score-circle';
-            if (percent >= 80) scoreCircle.classList.add('excellent');
-            else if (percent >= 60) scoreCircle.classList.add('good');
-            else if (percent >= 40) scoreCircle.classList.add('average');
-            else scoreCircle.classList.add('poor');
-            
-            // Показываем детали по ответам
-            const answersReview = document.getElementById('answers-review');
-            answersReview.innerHTML = '';
-            
-            quizData.forEach((question, index) => {
-                const isCorrect = userAnswers[index] === question.correct;
-                const reviewItem = document.createElement('div');
-                reviewItem.className = `answer-review-item ${isCorrect ? 'answer-correct' : 'answer-incorrect'}`;
-                
-                reviewItem.innerHTML = `
-                    <strong>Вопрос ${index + 1}:</strong> ${question.question}<br>
-                    <strong>Ваш ответ:</strong> ${question.options[userAnswers[index]] || 'Нет ответа'}<br>
-                    ${!isCorrect ? `<strong>Правильный ответ:</strong> ${question.options[question.correct]}` : ''}
-                `;
-                
-                answersReview.appendChild(reviewItem);
-            });
-            
-            // Показываем результаты, скрываем тест
-            document.getElementById('quiz-container').style.display = 'none';
-            document.getElementById('results-container').style.display = 'block';
-            quizCompleted = true;
-        }
-
-        // Сборка ПК
-        document.getElementById('calculatePrice').addEventListener('click', function() {
-            const components = [
-                { id: 'cpu', name: 'Процессор' },
-                { id: 'gpu', name: 'Видеокарта' },
-                { id: 'ram', name: 'Оперативная память' },
-                { id: 'storage', name: 'Накопитель' },
-                { id: 'motherboard', name: 'Материнская плата' },
-                { id: 'psu', name: 'Блок питания' }
-            ];
-            
-            let totalPrice = 0;
-            let componentsHTML = '';
-            let hasSelection = false;
-            
-            components.forEach(comp => {
-                const select = document.getElementById(comp.id);
-                const selectedOption = select.options[select.selectedIndex];
-                
-                if (selectedOption.value) {
-                    hasSelection = true;
-                    const price = parseInt(selectedOption.getAttribute('data-price'));
-                    totalPrice += price;
-                    
-                    componentsHTML += `
-                        <div class="component-item">
-                            <span>${comp.name}: ${selectedOption.text}</span>
-                            <span>${price.toLocaleString()}₽</span>
-                        </div>
-                    `;
-                }
-            });
-            
-            if (hasSelection) {
-                document.getElementById('componentsList').innerHTML = componentsHTML;
-                document.getElementById('totalPrice').innerHTML = `Итого: ${totalPrice.toLocaleString()}₽`;
-                document.getElementById('selectedComponents').style.display = 'block';
-            } else {
-                alert('Выберите хотя бы один компонент!');
-            }
-        });
-
-        // Система отзывов
-        document.getElementById('reviewForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('reviewName').value;
-            const rating = document.getElementById('reviewRating').value;
-            const text = document.getElementById('reviewText').value;
-            
-            const reviewHTML = `
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="review-author">${name}</div>
-                        <div class="review-rating">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div>
-                    </div>
-                    <div class="review-text">${text}</div>
-                    <div class="review-date">${new Date().toLocaleDateString('ru-RU')}</div>
-                </div>
-            `;
-            
-            document.getElementById('reviewsList').insertAdjacentHTML('afterbegin', reviewHTML);
-            this.reset();
-            alert('Спасибо за ваш отзыв!');
-        });
-
-        // Система регистрации/входа
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
-            
-            // Сохраняем пользователя
-            const user = { name, email, password };
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            localStorage.setItem('userEmail', email);
-            
-            updateUserInterface();
-            this.reset();
-            alert('Регистрация успешна!');
-        });
-
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Проверяем пользователя
-            const storedUser = localStorage.getItem('currentUser');
-            if (storedUser) {
-                const user = JSON.parse(storedUser);
-                if (user.email === email && user.password === password) {
-                    localStorage.setItem('userEmail', email);
-                    updateUserInterface();
-                    this.reset();
-                    alert('Вход выполнен!');
-                    return;
-                }
-            }
-            alert('Неверный email или пароль!');
-        });
-
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('userEmail');
-            updateUserInterface();
-            alert('Вы вышли из системы!');
-        });
-
-        function updateUserInterface() {
-            const userEmail = localStorage.getItem('userEmail');
-            const authTab = document.querySelector('[data-tab="auth"]');
-            const authTabText = document.getElementById('authTabText');
-            const userWelcome = document.getElementById('userWelcome');
-            const userEmailSpan = document.getElementById('userEmail');
-            
-            if (userEmail) {
-                authTabText.textContent = userEmail;
-                userWelcome.style.display = 'block';
-                userEmailSpan.textContent = userEmail;
-                document.getElementById('registerForm').style.display = 'none';
-                document.getElementById('loginForm').style.display = 'none';
-            } else {
-                authTabText.textContent = 'Регистрация/Вход';
-                userWelcome.style.display = 'none';
-                document.getElementById('registerForm').style.display = 'block';
-                document.getElementById('loginForm').style.display = 'block';
-            }
-        }
-
-        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            showQuestion();
-            updateUserInterface();
+            // Инициализация переменных
+            let currentQuestion = 0;
+            let userAnswers = new Array(quizData.length).fill(null);
             
-            // Переключение между вкладками
+            // Переключение вкладок
             document.querySelectorAll('.tab-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    // Убираем активный класс у всех кнопок и вкладок
+                button.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    
                     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                     
-                    // Добавляем активный класс к текущей кнопке и вкладке
-                    button.classList.add('active');
-                    document.getElementById(button.dataset.tab).classList.add('active');
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
                 });
             });
             
-            // Добавляем обработчики для быстрых кнопок
+            // Быстрые кнопки
             document.querySelectorAll('.quick-action-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const tab = this.dataset.tab;
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    const tabId = this.dataset.tab;
                     
-                    document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-                    document.getElementById(tab).classList.add('active');
+                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    
+                    document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
                 });
             });
-
+            
+            // Проблемы и решения
+            document.querySelectorAll('.problem-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.problem-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    document.querySelectorAll('.solution').forEach(s => s.classList.remove('active'));
+                    
+                    const solutionId = this.dataset.solution;
+                    document.getElementById(solutionId).classList.add('active');
+                });
+            });
+            
+            // Тест
+            function showQuestion() {
+                const question = quizData[currentQuestion];
+                document.getElementById('question-text').textContent = `${currentQuestion + 1}. ${question.question}`;
+                document.getElementById('current-question').textContent = currentQuestion + 1;
+                document.getElementById('total-questions').textContent = quizData.length;
+                
+                const progressPercent = (currentQuestion / quizData.length) * 100;
+                document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+                
+                const optionsContainer = document.getElementById('options-container');
+                optionsContainer.innerHTML = '';
+                
+                question.options.forEach((option, index) => {
+                    const label = document.createElement('label');
+                    label.className = 'quiz-option';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = 'quiz-answer';
+                    input.value = index;
+                    
+                    if (userAnswers[currentQuestion] === index) {
+                        input.checked = true;
+                        label.classList.add('selected');
+                    }
+                    
+                    input.addEventListener('change', function() {
+                        document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+                        
+                        if (this.checked) {
+                            this.parentElement.classList.add('selected');
+                            userAnswers[currentQuestion] = parseInt(this.value);
+                        }
+                        
+                        updateButtons();
+                    });
+                    
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(option));
+                    optionsContainer.appendChild(label);
+                });
+                
+                updateButtons();
+            }
+            
+            function updateButtons() {
+                const prevBtn = document.getElementById('prev-btn');
+                const nextBtn = document.getElementById('next-btn');
+                const submitBtn = document.getElementById('submit-btn');
+                
+                prevBtn.disabled = currentQuestion === 0;
+                
+                const hasAnswer = userAnswers[currentQuestion] !== null;
+                
+                if (currentQuestion === quizData.length - 1) {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = hasAnswer ? 'inline-flex' : 'none';
+                } else {
+                    nextBtn.style.display = hasAnswer ? 'inline-flex' : 'none';
+                    submitBtn.style.display = 'none';
+                }
+            }
+            
+            function showResults() {
+                let correctCount = 0;
+                
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizData[index].correct) correctCount++;
+                });
+                
+                const percent = Math.round((correctCount / quizData.length) * 100);
+                
+                document.getElementById('correct-answers').textContent = correctCount;
+                document.getElementById('total-answers').textContent = quizData.length;
+                document.getElementById('score-percent').textContent = `${percent}%`;
+                
+                const scoreCircle = document.getElementById('score-circle');
+                scoreCircle.style.background = `conic-gradient(var(--success) ${percent}%, #e9ecef ${percent}%)`;
+                
+                const answersReview = document.getElementById('answers-review');
+                answersReview.innerHTML = '';
+                
+                quizData.forEach((question, index) => {
+                    const isCorrect = userAnswers[index] === question.correct;
+                    const reviewItem = document.createElement('div');
+                    reviewItem.className = `answer-review-item ${isCorrect ? 'answer-correct' : 'answer-incorrect'}`;
+                    
+                    reviewItem.innerHTML = `
+                        <strong>Вопрос ${index + 1}:</strong> ${question.question}<br>
+                        <strong>Ваш ответ:</strong> ${question.options[userAnswers[index]] || 'Нет ответа'}<br>
+                        ${!isCorrect ? `<strong>Правильный ответ:</strong> ${question.options[question.correct]}` : ''}
+                    `;
+                    
+                    answersReview.appendChild(reviewItem);
+                });
+                
+                document.getElementById('quiz-container').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+            }
+            
+            document.getElementById('next-btn').addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    showQuestion();
+                }
+            });
+            
+            document.getElementById('prev-btn').addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    showQuestion();
+                }
+            });
+            
+            document.getElementById('submit-btn').addEventListener('click', showResults);
+            
+            document.getElementById('restart-btn').addEventListener('click', function() {
+                currentQuestion = 0;
+                userAnswers = new Array(quizData.length).fill(null);
+                
+                document.getElementById('quiz-container').style.display = 'block';
+                document.getElementById('results-container').style.display = 'none';
+                
+                showQuestion();
+            });
+            
+            // Сборка ПК
+            document.getElementById('calculatePrice').addEventListener('click', function() {
+                const components = [
+                    { id: 'cpu', name: 'Процессор' },
+                    { id: 'gpu', name: 'Видеокарта' },
+                    { id: 'ram', name: 'Оперативная память' },
+                    { id: 'storage', name: 'Накопитель' },
+                    { id: 'motherboard', name: 'Материнская плата' },
+                    { id: 'psu', name: 'Блок питания' }
+                ];
+                
+                let totalPrice = 0;
+                let componentsHTML = '';
+                let hasSelection = false;
+                
+                components.forEach(comp => {
+                    const select = document.getElementById(comp.id);
+                    const selectedOption = select.options[select.selectedIndex];
+                    
+                    if (selectedOption.value) {
+                        hasSelection = true;
+                        const price = parseInt(selectedOption.getAttribute('data-price'));
+                        totalPrice += price;
+                        
+                        componentsHTML += `
+                            <div class="component-item">
+                                <span>${comp.name}: ${selectedOption.text.split(' - ')[0]}</span>
+                                <span>${price.toLocaleString()}₽</span>
+                            </div>
+                        `;
+                    }
+                });
+                
+                if (hasSelection) {
+                    document.getElementById('componentsList').innerHTML = componentsHTML;
+                    document.getElementById('totalPrice').innerHTML = `Итого: ${totalPrice.toLocaleString()}₽`;
+                    document.getElementById('selectedComponents').style.display = 'block';
+                } else {
+                    alert('Выберите хотя бы один компонент!');
+                }
+            });
+            
+            // Отзывы
+            document.getElementById('reviewForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('reviewName').value;
+                const rating = document.getElementById('reviewRating').value;
+                const text = document.getElementById('reviewText').value;
+                
+                const reviewHTML = `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-author">${name}</div>
+                            <div class="review-rating">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div>
+                        </div>
+                        <div class="review-text">${text}</div>
+                        <div class="review-date">${new Date().toLocaleDateString('ru-RU')}</div>
+                    </div>
+                `;
+                
+                document.getElementById('reviewsList').insertAdjacentHTML('afterbegin', reviewHTML);
+                this.reset();
+                alert('Спасибо за ваш отзыв!');
+            });
+            
+            // Регистрация/Вход
+            function updateUserInterface() {
+                const userEmail = localStorage.getItem('userEmail');
+                const authTabText = document.getElementById('authTabText');
+                const userWelcome = document.getElementById('userWelcome');
+                const userEmailSpan = document.getElementById('userEmail');
+                const registerForm = document.getElementById('registerForm');
+                const loginForm = document.getElementById('loginForm');
+                
+                if (userEmail) {
+                    authTabText.textContent = userEmail;
+                    userWelcome.style.display = 'block';
+                    userEmailSpan.textContent = userEmail;
+                    registerForm.style.display = 'none';
+                    loginForm.style.display = 'none';
+                } else {
+                    authTabText.textContent = 'Регистрация/Вход';
+                    userWelcome.style.display = 'none';
+                    registerForm.style.display = 'block';
+                    loginForm.style.display = 'block';
+                }
+            }
+            
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('regName').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+                
+                const user = { name, email, password };
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('userEmail', email);
+                
+                updateUserInterface();
+                this.reset();
+                alert('Регистрация успешна!');
+            });
+            
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const storedUser = localStorage.getItem('currentUser');
+                
+                if (storedUser) {
+                    const user = JSON.parse(storedUser);
+                    if (user.email === email && user.password === password) {
+                        localStorage.setItem('userEmail', email);
+                        updateUserInterface();
+                        this.reset();
+                        alert('Вход выполнен!');
+                        return;
+                    }
+                }
+                
+                alert('Неверный email или пароль!');
+            });
+            
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('userEmail');
+                updateUserInterface();
+                alert('Вы вышли из системы!');
+            });
+            
             // Плавающие кнопки
             document.querySelector('.floating-btn.home').addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1928,7 +1862,7 @@
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
-
+            
             document.querySelector('.floating-btn.quiz').addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -1938,128 +1872,57 @@
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
-
-            // Улучшенные обработчики для проблем
-            document.querySelectorAll('.problem-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    // Убираем активный класс у всех проблем
-                    document.querySelectorAll('.problem-item').forEach(i => i.classList.remove('active'));
-                    // Добавляем активный класс текущей проблеме
-                    this.classList.add('active');
-                    
-                    // Скрываем все решения
-                    document.querySelectorAll('.solution').forEach(solution => {
-                        solution.classList.remove('active');
-                    });
-                    
-                    // Показываем выбранное решение
-                    const solutionId = this.dataset.solution;
-                    document.getElementById(solutionId).classList.add('active');
-                    
-                    // Плавная прокрутка к решению
-                    document.getElementById(solutionId).scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start' 
-                    });
-                });
-            });
-
-            // Обработчики событий для теста
-            document.getElementById('next-btn').addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    showQuestion();
+            
+            // Меню
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                const searchBox = document.getElementById('searchBox');
+                const quickActions = document.getElementById('quickActions');
+                const navTabs = document.getElementById('navTabs');
+                const isVisible = searchBox.classList.contains('active');
+                
+                if (!isVisible) {
+                    searchBox.classList.add('active');
+                    setTimeout(() => quickActions.classList.add('active'), 200);
+                    setTimeout(() => navTabs.classList.add('active'), 400);
+                    this.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    navTabs.classList.remove('active');
+                    setTimeout(() => quickActions.classList.remove('active'), 200);
+                    setTimeout(() => searchBox.classList.remove('active'), 400);
+                    this.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             });
-
-            document.getElementById('prev-btn').addEventListener('click', function() {
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    showQuestion();
-                }
-            });
-
-            document.getElementById('submit-btn').addEventListener('click', showResults);
-
-            document.getElementById('restart-btn').addEventListener('click', function() {
-                // Сброс теста
-                currentQuestion = 0;
-                userAnswers = new Array(quizData.length).fill(null);
-                quizCompleted = false;
-                
-                // Сброс выбора
-                document.querySelectorAll('input[type="radio"]').forEach(radio => {
-                    radio.checked = false;
-                });
-                document.querySelectorAll('.quiz-option').forEach(opt => {
-                    opt.classList.remove('selected');
-                });
-                
-                // Показываем первый вопрос
-                document.getElementById('quiz-container').style.display = 'block';
-                document.getElementById('results-container').style.display = 'none';
-                
-                showQuestion();
-            });
-
-            // Простой поиск
+            
+            // Поиск
             document.getElementById('searchInput').addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
                 
                 if (searchTerm.length < 2) {
-                    // Сбрасываем выделение, если поиск пустой
-                    document.querySelectorAll('.problem-item').forEach(item => {
-                        item.style.backgroundColor = '';
-                    });
-                    document.querySelectorAll('.component h3').forEach(component => {
-                        component.parentElement.style.backgroundColor = '';
-                    });
-                    document.querySelectorAll('.tool-table td').forEach(cell => {
-                        cell.style.backgroundColor = '';
+                    document.querySelectorAll('.problem-item, .component, .tool-table td').forEach(el => {
+                        el.style.backgroundColor = '';
                     });
                     return;
                 }
                 
-                // Поиск по проблемам
                 document.querySelectorAll('.problem-item').forEach(item => {
                     const text = item.textContent.toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        item.style.backgroundColor = '#fff3cd';
-                        // Показываем соответствующую вкладку
-                        document.querySelector('[data-tab="problems"]').click();
-                        // Показываем решение
-                        const solutionId = item.dataset.solution;
-                        document.querySelectorAll('.solution').forEach(solution => {
-                            solution.classList.remove('active');
-                        });
-                        document.getElementById(solutionId).classList.add('active');
-                    } else {
-                        item.style.backgroundColor = '';
-                    }
+                    item.style.backgroundColor = text.includes(searchTerm) ? '#fff3cd' : '';
                 });
                 
-                // Поиск по компонентам
                 document.querySelectorAll('.component h3').forEach(component => {
                     const text = component.textContent.toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        component.parentElement.style.backgroundColor = '#fff3cd';
-                        document.querySelector('[data-tab="components"]').click();
-                    } else {
-                        component.parentElement.style.backgroundColor = '';
-                    }
+                    component.parentElement.style.backgroundColor = text.includes(searchTerm) ? '#fff3cd' : '';
                 });
                 
-                // Поиск по инструментам
                 document.querySelectorAll('.tool-table td').forEach(cell => {
                     const text = cell.textContent.toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        cell.style.backgroundColor = '#fff3cd';
-                        document.querySelector('[data-tab="tools"]').click();
-                    } else {
-                        cell.style.backgroundColor = '';
-                    }
+                    cell.style.backgroundColor = text.includes(searchTerm) ? '#fff3cd' : '';
                 });
             });
+            
+            // Инициализация
+            showQuestion();
+            updateUserInterface();
         });
     </script>
 </body>

@@ -1303,87 +1303,1799 @@
             </div>
         </div>
         
-        <!-- Сборка ПК -->
-        <div id="builder" class="tab-content">
-            <h2><i class="fas fa-computer"></i> Конфигуратор сборки ПК</h2>
-            <p>Соберите свой идеальный компьютер, выбирая компоненты:</p>
-            
-            <div class="pc-builder">
-                <div class="component-selector">
-                    <div class="form-group">
-                        <label for="cpu"><i class="fas fa-microchip"></i> Процессор</label>
-                        <select id="cpu">
-                            <option value="">Выберите процессор</option>
-                            <option value="i9" data-price="45000">Intel Core i9-13900K - 45 000₽</option>
-                            <option value="i7" data-price="30000">Intel Core i7-13700K - 30 000₽</option>
-                            <option value="ryzen9" data-price="40000">AMD Ryzen 9 7900X - 40 000₽</option>
-                            <option value="ryzen7" data-price="25000">AMD Ryzen 7 7700X - 25 000₽</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="gpu"><i class="fas fa-desktop"></i> Видеокарта</label>
-                        <select id="gpu">
-                            <option value="">Выберите видеокарту</option>
-                            <option value="rtx4090" data-price="150000">NVIDIA RTX 4090 - 150 000₽</option>
-                            <option value="rtx4080" data-price="100000">NVIDIA RTX 4080 - 100 000₽</option>
-                            <option value="rx7900" data-price="80000">AMD RX 7900 XTX - 80 000₽</option>
-                            <option value="rtx4070" data-price="60000">NVIDIA RTX 4070 - 60 000₽</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="ram"><i class="fas fa-memory"></i> Оперативная память</label>
-                        <select id="ram">
-                            <option value="">Выберите ОЗУ</option>
-                            <option value="ram32" data-price="8000">32GB DDR5 - 8 000₽</option>
-                            <option value="ram16" data-price="4000">16GB DDR5 - 4 000₽</option>
-                            <option value="ram64" data-price="15000">64GB DDR5 - 15 000₽</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="storage"><i class="fas fa-hdd"></i> Накопитель</label>
-                        <select id="storage">
-                            <option value="">Выберите накопитель</option>
-                            <option value="ssd2tb" data-price="10000">SSD 2TB - 10 000₽</option>
-                            <option value="ssd1tb" data-price="5000">SSD 1TB - 5 000₽</option>
-                            <option value="hdd4tb" data-price="6000">HDD 4TB - 6 000₽</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="motherboard"><i class="fas fa-sitemap"></i> Материнская плата</label>
-                        <select id="motherboard">
-                            <option value="">Выберите материнскую плату</option>
-                            <option value="z790" data-price="25000">ASUS ROG Z790 - 25 000₽</option>
-                            <option value="b760" data-price="15000">MSI B760 - 15 000₽</option>
-                            <option value="x670" data-price="20000">Gigabyte X670 - 20 000₽</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="psu"><i class="fas fa-plug"></i> Блок питания</label>
-                        <select id="psu">
-                            <option value="">Выберите БП</option>
-                            <option value="psu1000" data-price="12000">1000W 80+ Gold - 12 000₽</option>
-                            <option value="psu850" data-price="8000">850W 80+ Bronze - 8 000₽</option>
-                            <option value="psu750" data-price="6000">750W 80+ Bronze - 6 000₽</option>
-                        </select>
-                    </div>
+<!-- Раздел сборки ПК - Конфигуратор в стиле DNS -->
+<div id="builder" class="tab-content">
+    <h2><i class="fas fa-computer"></i> Конфигуратор сборки ПК</h2>
+    <p>Соберите свой идеальный компьютер, выбирая компоненты. Совместимость проверяется автоматически.</p>
+    
+    <!-- Кнопка корзины -->
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+        <button class="btn-cart-toggle" id="cartToggle">
+            <i class="fas fa-shopping-cart"></i>
+            Корзина
+            <span class="cart-count" id="cartCount">0</span>
+        </button>
+    </div>
+    
+    <div class="dns-configurator">
+        <!-- Шапка конфигуратора -->
+        <div class="config-header">
+            <div class="config-summary">
+                <div class="selected-count" id="selectedCount">Выбрано 0 из 6 компонентов</div>
+                <div class="compatibility-status" id="compatibilityStatus">
+                    <i class="fas fa-check-circle" style="color: var(--success);"></i> Совместимость: ОК
                 </div>
-                
-                <button class="btn" id="calculatePrice">
-                    <i class="fas fa-calculator"></i> Рассчитать стоимость
-                </button>
-                
-                <div class="selected-components" id="selectedComponents" style="display: none;">
-                    <h3>Выбранные компоненты:</h3>
-                    <div id="componentsList"></div>
-                    <div class="total-price" id="totalPrice"></div>
+            </div>
+            <div class="total-price-big" id="totalPriceBig">0 ₽</div>
+        </div>
+        
+        <!-- Прогресс сборки -->
+        <div class="build-progress">
+            <div class="progress-steps">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Процессор</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Материнская плата</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Оперативная память</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Видеокарта</div>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-label">Накопитель</div>
+                </div>
+                <div class="progress-step" data-step="6">
+                    <div class="step-number">6</div>
+                    <div class="step-label">Блок питания</div>
                 </div>
             </div>
         </div>
+        
+        <!-- Основная область конфигуратора -->
+        <div class="config-main">
+            <!-- Левая панель - категории -->
+            <div class="config-categories">
+                <div class="category-list">
+                    <div class="category-item active" data-category="cpu">
+                        <i class="fas fa-microchip"></i>
+                        <span>Процессор</span>
+                        <span class="category-price" id="cpuPrice">—</span>
+                    </div>
+                    <div class="category-item" data-category="motherboard">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Материнская плата</span>
+                        <span class="category-price" id="motherboardPrice">—</span>
+                    </div>
+                    <div class="category-item" data-category="ram">
+                        <i class="fas fa-memory"></i>
+                        <span>Оперативная память</span>
+                        <span class="category-price" id="ramPrice">—</span>
+                    </div>
+                    <div class="category-item" data-category="gpu">
+                        <i class="fas fa-desktop"></i>
+                        <span>Видеокарта</span>
+                        <span class="category-price" id="gpuPrice">—</span>
+                    </div>
+                    <div class="category-item" data-category="storage">
+                        <i class="fas fa-hdd"></i>
+                        <span>Накопитель</span>
+                        <span class="category-price" id="storagePrice">—</span>
+                    </div>
+                    <div class="category-item" data-category="psu">
+                        <i class="fas fa-plug"></i>
+                        <span>Блок питания</span>
+                        <span class="category-price" id="psuPrice">—</span>
+                    </div>
+                </div>
+                
+                <!-- Итоговая стоимость в левой панели -->
+                <div class="category-total">
+                    <div class="total-label">Итого:</div>
+                    <div class="total-amount" id="totalAmount">0 ₽</div>
+                    <button class="btn-add-to-cart" id="addToCart">
+                        <i class="fas fa-shopping-cart"></i> Добавить в корзину
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Правая панель - товары -->
+            <div class="config-products">
+                <!-- Процессоры -->
+                <div class="products-grid active" id="cpu-products">
+                    <div class="product-card" data-category="cpu" data-id="i9" data-price="45000" data-socket="lga1700" data-cores="24">
+                        <div class="product-badge">Топовый</div>
+                        <div class="product-image">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Intel Core i9-13900K</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-bolt"></i> 24 ядра / 32 потока</span>
+                                <span class="spec"><i class="fas fa-microchip"></i> Сокет LGA1700</span>
+                                <span class="spec"><i class="fas fa-clock"></i> до 5.8 ГГц</span>
+                            </div>
+                            <div class="product-price">45 000 ₽</div>
+                            <button class="btn-select" data-select="cpu" data-value="i9" data-price="45000" data-text="Intel Core i9-13900K">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cpu" data-id="i7" data-price="30000" data-socket="lga1700" data-cores="16">
+                        <div class="product-image">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Intel Core i7-13700K</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-bolt"></i> 16 ядер / 24 потока</span>
+                                <span class="spec"><i class="fas fa-microchip"></i> Сокет LGA1700</span>
+                                <span class="spec"><i class="fas fa-clock"></i> до 5.4 ГГц</span>
+                            </div>
+                            <div class="product-price">30 000 ₽</div>
+                            <button class="btn-select" data-select="cpu" data-value="i7" data-price="30000" data-text="Intel Core i7-13700K">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cpu" data-id="ryzen9" data-price="40000" data-socket="am5" data-cores="12">
+                        <div class="product-badge">Хит</div>
+                        <div class="product-image">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">AMD Ryzen 9 7900X</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-bolt"></i> 12 ядер / 24 потока</span>
+                                <span class="spec"><i class="fas fa-microchip"></i> Сокет AM5</span>
+                                <span class="spec"><i class="fas fa-clock"></i> до 5.6 ГГц</span>
+                            </div>
+                            <div class="product-price">40 000 ₽</div>
+                            <button class="btn-select" data-select="cpu" data-value="ryzen9" data-price="40000" data-text="AMD Ryzen 9 7900X">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cpu" data-id="ryzen7" data-price="25000" data-socket="am5" data-cores="8">
+                        <div class="product-image">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">AMD Ryzen 7 7700X</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-bolt"></i> 8 ядер / 16 потоков</span>
+                                <span class="spec"><i class="fas fa-microchip"></i> Сокет AM5</span>
+                                <span class="spec"><i class="fas fa-clock"></i> до 5.4 ГГц</span>
+                            </div>
+                            <div class="product-price">25 000 ₽</div>
+                            <button class="btn-select" data-select="cpu" data-value="ryzen7" data-price="25000" data-text="AMD Ryzen 7 7700X">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Материнские платы -->
+                <div class="products-grid" id="motherboard-products">
+                    <div class="product-card" data-category="motherboard" data-id="z790" data-price="25000" data-socket="lga1700" data-ram="ddr5">
+                        <div class="product-badge">Premium</div>
+                        <div class="product-image">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">ASUS ROG Z790</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> Сокет LGA1700</span>
+                                <span class="spec"><i class="fas fa-memory"></i> DDR5, 4 слота</span>
+                                <span class="spec"><i class="fas fa-wifi"></i> Wi-Fi 6E</span>
+                            </div>
+                            <div class="product-price">25 000 ₽</div>
+                            <button class="btn-select" data-select="motherboard" data-value="z790" data-price="25000" data-text="ASUS ROG Z790">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="motherboard" data-id="b760" data-price="15000" data-socket="lga1700" data-ram="ddr5">
+                        <div class="product-image">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">MSI B760</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> Сокет LGA1700</span>
+                                <span class="spec"><i class="fas fa-memory"></i> DDR5, 4 слота</span>
+                                <span class="spec"><i class="fas fa-ethernet"></i> 2.5Gb LAN</span>
+                            </div>
+                            <div class="product-price">15 000 ₽</div>
+                            <button class="btn-select" data-select="motherboard" data-value="b760" data-price="15000" data-text="MSI B760">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="motherboard" data-id="x670" data-price="20000" data-socket="am5" data-ram="ddr5">
+                        <div class="product-image">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Gigabyte X670</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> Сокет AM5</span>
+                                <span class="spec"><i class="fas fa-memory"></i> DDR5, 4 слота</span>
+                                <span class="spec"><i class="fas fa-usb"></i> USB 3.2 Gen2</span>
+                            </div>
+                            <div class="product-price">20 000 ₽</div>
+                            <button class="btn-select" data-select="motherboard" data-value="x670" data-price="20000" data-text="Gigabyte X670">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Оперативная память -->
+                <div class="products-grid" id="ram-products">
+                    <div class="product-card" data-category="ram" data-id="ram64" data-price="15000" data-type="ddr5" data-size="64">
+                        <div class="product-badge">Для профессионалов</div>
+                        <div class="product-image">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Kingston Fury 64GB DDR5</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> 64GB (2x32GB)</span>
+                                <span class="spec"><i class="fas fa-clock"></i> DDR5-5600</span>
+                                <span class="spec"><i class="fas fa-bolt"></i> CL40</span>
+                            </div>
+                            <div class="product-price">15 000 ₽</div>
+                            <button class="btn-select" data-select="ram" data-value="ram64" data-price="15000" data-text="64GB DDR5">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="ram" data-id="ram32" data-price="8000" data-type="ddr5" data-size="32">
+                        <div class="product-image">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Corsair Vengeance 32GB DDR5</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> 32GB (2x16GB)</span>
+                                <span class="spec"><i class="fas fa-clock"></i> DDR5-5600</span>
+                                <span class="spec"><i class="fas fa-bolt"></i> CL36</span>
+                            </div>
+                            <div class="product-price">8 000 ₽</div>
+                            <button class="btn-select" data-select="ram" data-value="ram32" data-price="8000" data-text="32GB DDR5">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="ram" data-id="ram16" data-price="4000" data-type="ddr5" data-size="16">
+                        <div class="product-badge">Бюджетный</div>
+                        <div class="product-image">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Samsung 16GB DDR5</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> 16GB (2x8GB)</span>
+                                <span class="spec"><i class="fas fa-clock"></i> DDR5-4800</span>
+                                <span class="spec"><i class="fas fa-bolt"></i> CL40</span>
+                            </div>
+                            <div class="product-price">4 000 ₽</div>
+                            <button class="btn-select" data-select="ram" data-value="ram16" data-price="4000" data-text="16GB DDR5">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Видеокарты -->
+                <div class="products-grid" id="gpu-products">
+                    <div class="product-card" data-category="gpu" data-id="rtx4090" data-price="150000" data-psu="1000">
+                        <div class="product-badge">Флагман</div>
+                        <div class="product-image">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">NVIDIA RTX 4090</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> 24GB GDDR6X</span>
+                                <span class="spec"><i class="fas fa-bolt"></i> 450W TDP</span>
+                                <span class="spec"><i class="fas fa-plug"></i> Рек. БП 1000W</span>
+                            </div>
+                            <div class="product-price">150 000 ₽</div>
+                            <button class="btn-select" data-select="gpu" data-value="rtx4090" data-price="150000" data-text="NVIDIA RTX 4090">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="gpu" data-id="rtx4080" data-price="100000" data-psu="850">
+                        <div class="product-image">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">NVIDIA RTX 4080</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> 16GB GDDR6X</span>
+                                <span class="spec"><i class="fas fa-bolt"></i> 320W TDP</span>
+                                <span class="spec"><i class="fas fa-plug"></i> Рек. БП 850W</span>
+                            </div>
+                            <div class="product-price">100 000 ₽</div>
+                            <button class="btn-select" data-select="gpu" data-value="rtx4080" data-price="100000" data-text="NVIDIA RTX 4080">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="gpu" data-id="rx7900" data-price="80000" data-psu="850">
+                        <div class="product-badge">Хит</div>
+                        <div class="product-image">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">AMD RX 7900 XTX</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> 24GB GDDR6</span>
+                                <span class="spec"><i class="fas fa-bolt"></i> 355W TDP</span>
+                                <span class="spec"><i class="fas fa-plug"></i> Рек. БП 850W</span>
+                            </div>
+                            <div class="product-price">80 000 ₽</div>
+                            <button class="btn-select" data-select="gpu" data-value="rx7900" data-price="80000" data-text="AMD RX 7900 XTX">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="gpu" data-id="rtx4070" data-price="60000" data-psu="750">
+                        <div class="product-image">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">NVIDIA RTX 4070</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-microchip"></i> 12GB GDDR6X</span>
+                                <span class="spec"><i class="fas fa-bolt"></i> 200W TDP</span>
+                                <span class="spec"><i class="fas fa-plug"></i> Рек. БП 750W</span>
+                            </div>
+                            <div class="product-price">60 000 ₽</div>
+                            <button class="btn-select" data-select="gpu" data-value="rtx4070" data-price="60000" data-text="NVIDIA RTX 4070">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Накопители -->
+                <div class="products-grid" id="storage-products">
+                    <div class="product-card" data-category="storage" data-id="ssd2tb" data-price="10000" data-type="ssd">
+                        <div class="product-badge">NVMe</div>
+                        <div class="product-image">
+                            <i class="fas fa-hdd"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Samsung 980 Pro 2TB</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-hdd"></i> NVMe M.2</span>
+                                <span class="spec"><i class="fas fa-tachometer-alt"></i> 7000 MB/s</span>
+                                <span class="spec"><i class="fas fa-microchip"></i> 2TB</span>
+                            </div>
+                            <div class="product-price">10 000 ₽</div>
+                            <button class="btn-select" data-select="storage" data-value="ssd2tb" data-price="10000" data-text="SSD 2TB">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="storage" data-id="ssd1tb" data-price="5000" data-type="ssd">
+                        <div class="product-image">
+                            <i class="fas fa-hdd"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">WD Black SN770 1TB</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-hdd"></i> NVMe M.2</span>
+                                <span class="spec"><i class="fas fa-tachometer-alt"></i> 5150 MB/s</span>
+                                <span class="spec"><i class="fas fa-microchip"></i> 1TB</span>
+                            </div>
+                            <div class="product-price">5 000 ₽</div>
+                            <button class="btn-select" data-select="storage" data-value="ssd1tb" data-price="5000" data-text="SSD 1TB">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="storage" data-id="hdd4tb" data-price="6000" data-type="hdd">
+                        <div class="product-badge">Для данных</div>
+                        <div class="product-image">
+                            <i class="fas fa-hdd"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Seagate Barracuda 4TB</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-hdd"></i> HDD 7200rpm</span>
+                                <span class="spec"><i class="fas fa-tachometer-alt"></i> 190 MB/s</span>
+                                <span class="spec"><i class="fas fa-microchip"></i> 4TB</span>
+                            </div>
+                            <div class="product-price">6 000 ₽</div>
+                            <button class="btn-select" data-select="storage" data-value="hdd4tb" data-price="6000" data-text="HDD 4TB">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Блоки питания -->
+                <div class="products-grid" id="psu-products">
+                    <div class="product-card" data-category="psu" data-id="psu1000" data-price="12000" data-power="1000">
+                        <div class="product-badge">80+ Gold</div>
+                        <div class="product-image">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Corsair RM1000x</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-bolt"></i> 1000W</span>
+                                <span class="spec"><i class="fas fa-certificate"></i> 80+ Gold</span>
+                                <span class="spec"><i class="fas fa-fan"></i> 135mm fan</span>
+                            </div>
+                            <div class="product-price">12 000 ₽</div>
+                            <button class="btn-select" data-select="psu" data-value="psu1000" data-price="12000" data-text="1000W 80+ Gold">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="psu" data-id="psu850" data-price="8000" data-power="850">
+                        <div class="product-image">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">be quiet! Pure Power 850W</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-bolt"></i> 850W</span>
+                                <span class="spec"><i class="fas fa-certificate"></i> 80+ Bronze</span>
+                                <span class="spec"><i class="fas fa-fan"></i> 120mm fan</span>
+                            </div>
+                            <div class="product-price">8 000 ₽</div>
+                            <button class="btn-select" data-select="psu" data-value="psu850" data-price="8000" data-text="850W 80+ Bronze">Выбрать</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="psu" data-id="psu750" data-price="6000" data-power="750">
+                        <div class="product-image">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Chieftec 750W</div>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-bolt"></i> 750W</span>
+                                <span class="spec"><i class="fas fa-certificate"></i> 80+ Bronze</span>
+                                <span class="spec"><i class="fas fa-fan"></i> 120mm fan</span>
+                            </div>
+                            <div class="product-price">6 000 ₽</div>
+                            <button class="btn-select" data-select="psu" data-value="psu750" data-price="6000" data-text="750W 80+ Bronze">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Выбранные компоненты -->
+        <div class="selected-components-panel" id="selectedComponentsPanel" style="display: none;">
+            <h3><i class="fas fa-check-circle"></i> Ваша сборка</h3>
+            <div class="selected-list" id="selectedComponentsList"></div>
+            <div class="selected-total">
+                <span>Общая стоимость:</span>
+                <span class="selected-total-price" id="selectedTotalPrice">0 ₽</span>
+            </div>
+            <div class="selected-actions">
+                <button class="btn-reset" id="resetConfig">
+                    <i class="fas fa-redo"></i> Сбросить
+                </button>
+                <button class="btn-save-config" id="saveConfig">
+                    <i class="fas fa-save"></i> Сохранить сборку
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно корзины -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-modal-content">
+            <div class="cart-modal-header">
+                <h3><i class="fas fa-shopping-cart"></i> Корзина сборок</h3>
+                <button class="cart-modal-close" id="cartModalClose">&times;</button>
+            </div>
+            <div class="cart-modal-body" id="cartModalBody">
+                <!-- Сюда будут добавляться сохраненные сборки -->
+            </div>
+            <div class="cart-modal-footer">
+                <button class="btn-clear-cart" id="clearCart">
+                    <i class="fas fa-trash"></i> Очистить корзину
+                </button>
+                <button class="btn-close-cart" id="closeCart">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Дополнительные стили для конфигуратора -->
+<style>
+    /* Стили для конфигуратора */
+    .dns-configurator {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        margin: 20px 0;
+    }
+    
+    .config-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .config-summary {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .selected-count {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    .compatibility-status {
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .total-price-big {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+    
+    .build-progress {
+        margin-bottom: 30px;
+        overflow-x: auto;
+    }
+    
+    .progress-steps {
+        display: flex;
+        min-width: 600px;
+        position: relative;
+        justify-content: space-between;
+    }
+    
+    .progress-steps::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #e9ecef;
+        z-index: 1;
+    }
+    
+    .progress-step {
+        position: relative;
+        z-index: 2;
+        background: white;
+        padding: 0 10px;
+        cursor: pointer;
+        text-align: center;
+        flex: 1;
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: #e9ecef;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+        color: var(--dark);
+        transition: var(--transition);
+        border: 3px solid white;
+    }
+    
+    .progress-step.active .step-number {
+        background: var(--secondary);
+        color: white;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+    }
+    
+    .progress-step.completed .step-number {
+        background: var(--success);
+        color: white;
+    }
+    
+    .step-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--dark);
+    }
+    
+    .config-main {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .config-categories {
+        width: 250px;
+        flex-shrink: 0;
+    }
+    
+    .category-list {
+        background: #f8f9fa;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+    
+    .category-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        cursor: pointer;
+        transition: var(--transition);
+        border-bottom: 1px solid #e9ecef;
+        gap: 10px;
+    }
+    
+    .category-item:last-child {
+        border-bottom: none;
+    }
+    
+    .category-item:hover {
+        background: #e8f4fc;
+    }
+    
+    .category-item.active {
+        background: var(--secondary);
+        color: white;
+    }
+    
+    .category-item i {
+        width: 20px;
+    }
+    
+    .category-item span {
+        flex: 1;
+    }
+    
+    .category-price {
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    
+    .category-item.active .category-price {
+        color: white;
+    }
+    
+    .category-total {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+    }
+    
+    .total-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        margin-bottom: 5px;
+    }
+    
+    .total-amount {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    
+    .btn-add-to-cart {
+        width: 100%;
+        padding: 12px;
+        background: var(--success);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-weight: 600;
+    }
+    
+    .btn-add-to-cart:hover {
+        background: #218838;
+        transform: translateY(-2px);
+    }
+    
+    .config-products {
+        flex: 1;
+    }
+    
+    .products-grid {
+        display: none;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    
+    .products-grid.active {
+        display: grid;
+    }
+    
+    .product-card {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: var(--transition);
+        position: relative;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        border-color: var(--secondary);
+    }
+    
+    .product-card.selected {
+        border-color: var(--success);
+        background: #f0fff4;
+    }
+    
+    .product-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--warning);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        z-index: 1;
+    }
+    
+    .product-image {
+        background: #f8f9fa;
+        padding: 20px;
+        text-align: center;
+        font-size: 3rem;
+        color: var(--secondary);
+    }
+    
+    .product-info {
+        padding: 15px;
+    }
+    
+    .product-name {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        color: var(--primary);
+    }
+    
+    .product-specs {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 15px;
+    }
+    
+    .spec {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .spec i {
+        width: 16px;
+        margin-right: 5px;
+        color: var(--secondary);
+    }
+    
+    .product-price {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: var(--primary);
+        margin-bottom: 15px;
+    }
+    
+    .btn-select {
+        width: 100%;
+        padding: 10px;
+        background: var(--secondary);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+    }
+    
+    .btn-select:hover {
+        background: #2980b9;
+    }
+    
+    .btn-select.selected {
+        background: var(--success);
+    }
+    
+    .selected-components-panel {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    
+    .selected-list {
+        margin: 15px 0;
+    }
+    
+    .selected-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        border-left: 4px solid var(--secondary);
+    }
+    
+    .selected-item-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .selected-item-info i {
+        color: var(--secondary);
+    }
+    
+    .selected-item-price {
+        font-weight: bold;
+        color: var(--primary);
+        margin-right: 10px;
+    }
+    
+    .btn-remove {
+        background: none;
+        border: none;
+        color: var(--accent);
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: var(--transition);
+    }
+    
+    .btn-remove:hover {
+        transform: scale(1.2);
+    }
+    
+    .selected-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-top: 2px dashed #dee2e6;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    
+    .selected-total-price {
+        color: var(--primary);
+        font-size: 1.4rem;
+    }
+    
+    .selected-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .btn-reset {
+        flex: 1;
+        padding: 12px;
+        background: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .btn-reset:hover {
+        background: #545b62;
+    }
+    
+    .btn-save-config {
+        flex: 1;
+        padding: 12px;
+        background: var(--success);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .btn-save-config:hover {
+        background: #218838;
+    }
+    
+    /* Стили для кнопки корзины */
+    .btn-cart-toggle {
+        background: var(--success);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        border: 2px solid transparent;
+    }
+    
+    .btn-cart-toggle:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(46, 204, 113, 0.3);
+        border-color: white;
+    }
+    
+    .cart-count {
+        background: white;
+        color: var(--success);
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    
+    /* Стили для модального окна корзины */
+    .cart-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .cart-modal.active {
+        display: flex;
+    }
+    
+    .cart-modal-content {
+        background: white;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    .cart-modal-header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 1.5rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .cart-modal-header h3 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .cart-modal-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        line-height: 1;
+        transition: var(--transition);
+    }
+    
+    .cart-modal-close:hover {
+        transform: scale(1.2);
+    }
+    
+    .cart-modal-body {
+        padding: 2rem;
+        max-height: calc(80vh - 150px);
+        overflow-y: auto;
+    }
+    
+    .cart-empty {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+    }
+    
+    .cart-empty i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #dee2e6;
+    }
+    
+    .cart-item {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid var(--secondary);
+        transition: var(--transition);
+    }
+    
+    .cart-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .cart-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .cart-item-date {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .cart-item-components {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.8rem;
+        margin: 1rem 0;
+    }
+    
+    .cart-component {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+    }
+    
+    .cart-component i {
+        color: var(--secondary);
+        width: 20px;
+    }
+    
+    .cart-item-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 2px dashed #dee2e6;
+        font-weight: bold;
+    }
+    
+    .cart-item-price {
+        color: var(--primary);
+        font-size: 1.3rem;
+    }
+    
+    .cart-item-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+    
+    .btn-load-config {
+        padding: 8px 16px;
+        background: var(--secondary);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .btn-load-config:hover {
+        background: #2980b9;
+    }
+    
+    .btn-delete-config {
+        padding: 8px 16px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .btn-delete-config:hover {
+        background: #c82333;
+    }
+    
+    .cart-modal-footer {
+        padding: 1.5rem 2rem;
+        border-top: 1px solid #dee2e6;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+    
+    .btn-clear-cart {
+        padding: 10px 20px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-clear-cart:hover {
+        background: #c82333;
+    }
+    
+    .btn-close-cart {
+        padding: 10px 20px;
+        background: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .btn-close-cart:hover {
+        background: #545b62;
+    }
+    
+    /* Уведомления */
+    .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--success);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 3000;
+        animation: slideInRight 0.3s ease;
+    }
+    
+    .notification.error {
+        background: var(--accent);
+    }
+    
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+</style>
+
+<!-- JavaScript для конфигуратора -->
+<script>
+(function() {
+    // Функция инициализации конфигуратора
+    function initConfigurator() {
+        console.log('Инициализация конфигуратора...');
+        
+        // Получаем все необходимые элементы
+        const categoryItems = document.querySelectorAll('.category-item');
+        const progressSteps = document.querySelectorAll('.progress-step');
+        const selectButtons = document.querySelectorAll('.btn-select');
+        const resetButton = document.getElementById('resetConfig');
+        const saveButton = document.getElementById('saveConfig');
+        const addToCartButton = document.getElementById('addToCart');
+        const cartToggle = document.getElementById('cartToggle');
+        const cartModal = document.getElementById('cartModal');
+        const cartModalClose = document.getElementById('cartModalClose');
+        const closeCart = document.getElementById('closeCart');
+        const clearCart = document.getElementById('clearCart');
+        
+        // Проверяем, есть ли элементы на странице
+        if (!categoryItems.length) {
+            console.log('Элементы конфигуратора не найдены');
+            return;
+        }
+        
+        // Состояние сборки
+        const buildState = {
+            cpu: null,
+            motherboard: null,
+            ram: null,
+            gpu: null,
+            storage: null,
+            psu: null
+        };
+        
+        // Цены компонентов
+        const prices = {
+            cpu: 0,
+            motherboard: 0,
+            ram: 0,
+            gpu: 0,
+            storage: 0,
+            psu: 0
+        };
+        
+        // Названия компонентов
+        const componentNames = {
+            cpu: '',
+            motherboard: '',
+            ram: '',
+            gpu: '',
+            storage: '',
+            psu: ''
+        };
+        
+        // Данные компонентов (для сохранения полной информации)
+        const componentData = {
+            cpu: {},
+            motherboard: {},
+            ram: {},
+            gpu: {},
+            storage: {},
+            psu: {}
+        };
+        
+        // Инициализация корзины
+        let cart = JSON.parse(localStorage.getItem('pcBuilderCart')) || [];
+        updateCartCount();
+        
+        // Функция для показа уведомления
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                ${message}
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Переключение категорий
+        categoryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const category = this.dataset.category;
+                
+                categoryItems.forEach(cat => cat.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('.products-grid').forEach(grid => grid.classList.remove('active'));
+                const targetGrid = document.getElementById(`${category}-products`);
+                if (targetGrid) {
+                    targetGrid.classList.add('active');
+                }
+            });
+        });
+        
+        // Переключение шагов прогресса
+        progressSteps.forEach(step => {
+            step.addEventListener('click', function() {
+                const stepNum = this.dataset.step;
+                const categories = ['cpu', 'motherboard', 'ram', 'gpu', 'storage', 'psu'];
+                const category = categories[stepNum - 1];
+                
+                categoryItems.forEach(cat => cat.classList.remove('active'));
+                const targetCategory = document.querySelector(`[data-category="${category}"]`);
+                if (targetCategory) {
+                    targetCategory.classList.add('active');
+                }
+                
+                document.querySelectorAll('.products-grid').forEach(grid => grid.classList.remove('active'));
+                const targetGrid = document.getElementById(`${category}-products`);
+                if (targetGrid) {
+                    targetGrid.classList.add('active');
+                }
+            });
+        });
+        
+        // Выбор компонента
+        selectButtons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                const category = this.dataset.select;
+                const value = this.dataset.value;
+                const price = parseInt(this.dataset.price);
+                const text = this.dataset.text;
+                
+                if (!category) return;
+                
+                // Сохраняем все данные о компоненте
+                const productCard = this.closest('.product-card');
+                if (productCard) {
+                    const dataset = productCard.dataset;
+                    componentData[category] = {
+                        id: value,
+                        price: price,
+                        name: text,
+                        ...dataset
+                    };
+                }
+                
+                // Обновляем состояние
+                buildState[category] = value;
+                prices[category] = price;
+                componentNames[category] = text;
+                
+                // Обновляем цену в категории
+                const priceElement = document.getElementById(`${category}Price`);
+                if (priceElement) {
+                    priceElement.textContent = price.toLocaleString() + ' ₽';
+                }
+                
+                // Визуальное выделение выбранного товара
+                document.querySelectorAll(`[data-category="${category}"] .product-card`).forEach(card => {
+                    card.classList.remove('selected');
+                });
+                if (productCard) {
+                    productCard.classList.add('selected');
+                }
+                
+                // Меняем текст кнопки
+                document.querySelectorAll(`[data-select="${category}"]`).forEach(b => {
+                    b.textContent = 'Выбрать';
+                    b.classList.remove('selected');
+                });
+                this.textContent = 'Выбрано';
+                this.classList.add('selected');
+                
+                // Обновляем шаг прогресса
+                const stepIndex = ['cpu', 'motherboard', 'ram', 'gpu', 'storage', 'psu'].indexOf(category);
+                if (stepIndex !== -1 && progressSteps[stepIndex]) {
+                    progressSteps[stepIndex].classList.add('completed');
+                }
+                
+                // Обновляем общую стоимость
+                updateTotalPrice();
+                
+                // Проверяем совместимость
+                checkCompatibility();
+            });
+        });
+        
+        // Функция обновления общей стоимости
+        function updateTotalPrice() {
+            let total = 0;
+            for (let key in prices) {
+                total += prices[key];
+            }
+            
+            const totalPriceBig = document.getElementById('totalPriceBig');
+            const totalAmount = document.getElementById('totalAmount');
+            const selectedTotalPrice = document.getElementById('selectedTotalPrice');
+            const selectedCount = document.getElementById('selectedCount');
+            
+            if (totalPriceBig) totalPriceBig.textContent = total.toLocaleString() + ' ₽';
+            if (totalAmount) totalAmount.textContent = total.toLocaleString() + ' ₽';
+            if (selectedTotalPrice) selectedTotalPrice.textContent = total.toLocaleString() + ' ₽';
+            
+            // Обновляем счетчик выбранных компонентов
+            const selectedCountValue = Object.values(buildState).filter(v => v !== null).length;
+            if (selectedCount) {
+                selectedCount.textContent = `Выбрано ${selectedCountValue} из 6 компонентов`;
+            }
+            
+            // Показываем панель выбранных компонентов
+            const selectedPanel = document.getElementById('selectedComponentsPanel');
+            if (selectedPanel) {
+                if (selectedCountValue > 0) {
+                    updateSelectedComponentsList();
+                    selectedPanel.style.display = 'block';
+                } else {
+                    selectedPanel.style.display = 'none';
+                }
+            }
+        }
+        
+        // Функция обновления списка выбранных компонентов
+        function updateSelectedComponentsList() {
+            const list = document.getElementById('selectedComponentsList');
+            if (!list) return;
+            
+            list.innerHTML = '';
+            
+            const categories = [
+                { key: 'cpu', name: 'Процессор', icon: 'fa-microchip' },
+                { key: 'motherboard', name: 'Материнская плата', icon: 'fa-sitemap' },
+                { key: 'ram', name: 'Оперативная память', icon: 'fa-memory' },
+                { key: 'gpu', name: 'Видеокарта', icon: 'fa-desktop' },
+                { key: 'storage', name: 'Накопитель', icon: 'fa-hdd' },
+                { key: 'psu', name: 'Блок питания', icon: 'fa-plug' }
+            ];
+            
+            categories.forEach(cat => {
+                if (buildState[cat.key]) {
+                    const item = document.createElement('div');
+                    item.className = 'selected-item';
+                    item.innerHTML = `
+                        <div class="selected-item-info">
+                            <i class="fas ${cat.icon}"></i>
+                            <span class="selected-item-name">${cat.name}: ${componentNames[cat.key]}</span>
+                        </div>
+                        <div>
+                            <span class="selected-item-price">${prices[cat.key].toLocaleString()} ₽</span>
+                            <button class="btn-remove" data-category="${cat.key}"><i class="fas fa-times"></i></button>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                }
+            });
+            
+            // Добавляем обработчики для кнопок удаления
+            document.querySelectorAll('.btn-remove').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    removeComponent(category);
+                });
+            });
+        }
+        
+        // Функция удаления компонента
+        function removeComponent(category) {
+            buildState[category] = null;
+            prices[category] = 0;
+            componentNames[category] = '';
+            componentData[category] = {};
+            
+            const priceElement = document.getElementById(`${category}Price`);
+            if (priceElement) {
+                priceElement.textContent = '—';
+            }
+            
+            document.querySelectorAll(`[data-select="${category}"]`).forEach(btn => {
+                btn.textContent = 'Выбрать';
+                btn.classList.remove('selected');
+            });
+            
+            document.querySelectorAll(`[data-category="${category}"] .product-card`).forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            const stepIndex = ['cpu', 'motherboard', 'ram', 'gpu', 'storage', 'psu'].indexOf(category);
+            if (stepIndex !== -1 && progressSteps[stepIndex]) {
+                progressSteps[stepIndex].classList.remove('completed');
+            }
+            
+            updateTotalPrice();
+            checkCompatibility();
+        }
+        
+        // Функция проверки совместимости
+        function checkCompatibility() {
+            const statusEl = document.getElementById('compatibilityStatus');
+            if (!statusEl) return;
+            
+            let compatible = true;
+            let message = 'Совместимость: ОК';
+            let icon = 'fa-check-circle';
+            let color = 'var(--success)';
+            
+            // Проверка совместимости сокета процессора и материнской платы
+            if (buildState.cpu && buildState.motherboard) {
+                const cpuCard = document.querySelector(`[data-category="cpu"][data-id="${buildState.cpu}"]`);
+                const motherboardCard = document.querySelector(`[data-category="motherboard"][data-id="${buildState.motherboard}"]`);
+                
+                if (cpuCard && motherboardCard) {
+                    const cpuSocket = cpuCard.dataset.socket;
+                    const motherboardSocket = motherboardCard.dataset.socket;
+                    
+                    if (cpuSocket !== motherboardSocket) {
+                        compatible = false;
+                        message = 'Несовместимость: сокет процессора и материнской платы';
+                        icon = 'fa-exclamation-triangle';
+                        color = 'var(--accent)';
+                    }
+                }
+            }
+            
+            // Проверка мощности блока питания
+            if (compatible && buildState.gpu && buildState.psu) {
+                const gpuCard = document.querySelector(`[data-category="gpu"][data-id="${buildState.gpu}"]`);
+                const psuCard = document.querySelector(`[data-category="psu"][data-id="${buildState.psu}"]`);
+                
+                if (gpuCard && psuCard) {
+                    const requiredPower = parseInt(gpuCard.dataset.psu);
+                    const psuPower = parseInt(psuCard.dataset.power);
+                    
+                    if (psuPower < requiredPower) {
+                        compatible = false;
+                        message = 'Недостаточная мощность блока питания';
+                        icon = 'fa-exclamation-triangle';
+                        color = 'var(--accent)';
+                    }
+                }
+            }
+            
+            statusEl.innerHTML = `<i class="fas ${icon}" style="color: ${color};"></i> ${message}`;
+        }
+        
+        // Сброс конфигурации
+        if (resetButton) {
+            resetButton.addEventListener('click', function() {
+                ['cpu', 'motherboard', 'ram', 'gpu', 'storage', 'psu'].forEach(category => {
+                    removeComponent(category);
+                });
+                showNotification('Конфигурация сброшена');
+            });
+        }
+        
+        // Сохранение сборки в localStorage
+        if (saveButton) {
+            saveButton.addEventListener('click', function() {
+                if (Object.values(buildState).filter(v => v !== null).length < 6) {
+                    showNotification('Выберите все компоненты для сохранения сборки!', 'error');
+                    return;
+                }
+                
+                const config = {
+                    id: Date.now(),
+                    components: componentNames,
+                    componentData: componentData,
+                    prices: prices,
+                    total: Object.values(prices).reduce((a, b) => a + b, 0),
+                    date: new Date().toLocaleDateString('ru-RU')
+                };
+                
+                localStorage.setItem('savedConfig', JSON.stringify(config));
+                showNotification('Сборка сохранена!');
+            });
+        }
+        
+        // Функция обновления счетчика корзины
+        function updateCartCount() {
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                cartCount.textContent = cart.length;
+            }
+        }
+        
+        // Функция отображения корзины
+        function renderCart() {
+            const cartBody = document.getElementById('cartModalBody');
+            if (!cartBody) return;
+            
+            if (cart.length === 0) {
+                cartBody.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Корзина пуста</p>
+                        <p style="font-size: 0.9rem; color: #999;">Добавьте сборку в корзину, чтобы сохранить её</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cartBody.innerHTML = '';
+            cart.forEach((item, index) => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                
+                // Создаем список компонентов
+                const componentsList = Object.entries(item.components)
+                    .filter(([key, value]) => value)
+                    .map(([key, value]) => {
+                        const icons = {
+                            cpu: 'fa-microchip',
+                            motherboard: 'fa-sitemap',
+                            ram: 'fa-memory',
+                            gpu: 'fa-desktop',
+                            storage: 'fa-hdd',
+                            psu: 'fa-plug'
+                        };
+                        const names = {
+                            cpu: 'Процессор',
+                            motherboard: 'Материнская плата',
+                            ram: 'ОЗУ',
+                            gpu: 'Видеокарта',
+                            storage: 'Накопитель',
+                            psu: 'БП'
+                        };
+                        return `
+                            <div class="cart-component">
+                                <i class="fas ${icons[key]}"></i>
+                                <span>${names[key]}: ${value}</span>
+                            </div>
+                        `;
+                    }).join('');
+                
+                cartItem.innerHTML = `
+                    <div class="cart-item-header">
+                        <span class="cart-item-date">Сборка от ${item.date}</span>
+                    </div>
+                    <div class="cart-item-components">
+                        ${componentsList}
+                    </div>
+                    <div class="cart-item-total">
+                        <span>Общая стоимость:</span>
+                        <span class="cart-item-price">${item.total.toLocaleString()} ₽</span>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="btn-load-config" data-index="${index}">
+                            <i class="fas fa-download"></i> Загрузить
+                        </button>
+                        <button class="btn-delete-config" data-index="${index}">
+                            <i class="fas fa-trash"></i> Удалить
+                        </button>
+                    </div>
+                `;
+                
+                cartBody.appendChild(cartItem);
+            });
+            
+            // Добавляем обработчики для кнопок в корзине
+            document.querySelectorAll('.btn-load-config').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    showNotification('Функция загрузки из корзины будет доработана', 'error');
+                });
+            });
+            
+            document.querySelectorAll('.btn-delete-config').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    deleteConfigFromCart(index);
+                });
+            });
+        }
+        
+        // Функция удаления конфигурации из корзины
+        function deleteConfigFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('pcBuilderCart', JSON.stringify(cart));
+            renderCart();
+            updateCartCount();
+            showNotification('Сборка удалена из корзины');
+        }
+        
+        // Добавление в корзину
+        if (addToCartButton) {
+            addToCartButton.addEventListener('click', function() {
+                const selectedCount = Object.values(buildState).filter(v => v !== null).length;
+                if (selectedCount < 6) {
+                    showNotification('Выберите все компоненты для добавления в корзину!', 'error');
+                    return;
+                }
+                
+                // Создаем объект сборки для корзины
+                const config = {
+                    id: Date.now(),
+                    components: { ...componentNames },
+                    componentData: { ...componentData },
+                    prices: { ...prices },
+                    total: Object.values(prices).reduce((a, b) => a + b, 0),
+                    date: new Date().toLocaleDateString('ru-RU')
+                };
+                
+                // Добавляем в корзину
+                cart.push(config);
+                localStorage.setItem('pcBuilderCart', JSON.stringify(cart));
+                
+                // Обновляем счетчик
+                updateCartCount();
+                
+                // Показываем уведомление
+                showNotification('Сборка добавлена в корзину!');
+                
+                // Если корзина открыта, обновляем её содержимое
+                if (cartModal && cartModal.classList.contains('active')) {
+                    renderCart();
+                }
+            });
+        }
+        
+        // Открытие корзины
+        if (cartToggle) {
+            cartToggle.addEventListener('click', function() {
+                if (cartModal) {
+                    cartModal.classList.add('active');
+                    renderCart();
+                }
+            });
+        }
+        
+        // Закрытие корзины
+        if (cartModalClose) {
+            cartModalClose.addEventListener('click', function() {
+                cartModal.classList.remove('active');
+            });
+        }
+        
+        if (closeCart) {
+            closeCart.addEventListener('click', function() {
+                cartModal.classList.remove('active');
+            });
+        }
+        
+        // Очистка корзины
+        if (clearCart) {
+            clearCart.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    showNotification('Корзина уже пуста', 'error');
+                    return;
+                }
+                
+                if (confirm('Вы уверены, что хотите очистить корзину?')) {
+                    cart = [];
+                    localStorage.setItem('pcBuilderCart', JSON.stringify(cart));
+                    renderCart();
+                    updateCartCount();
+                    showNotification('Корзина очищена');
+                }
+            });
+        }
+        
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', function(e) {
+            if (cartModal && e.target === cartModal) {
+                cartModal.classList.remove('active');
+            }
+        });
+    }
+    
+    // Запускаем инициализацию после загрузки страницы
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initConfigurator);
+    } else {
+        initConfigurator();
+    }
+})();
+</script>
         
         <!-- Отзывы -->
         <div id="reviews" class="tab-content">
@@ -1718,48 +3430,6 @@
                 document.getElementById('results-container').style.display = 'none';
                 
                 showQuestion();
-            });
-            
-            // Сборка ПК
-            document.getElementById('calculatePrice').addEventListener('click', function() {
-                const components = [
-                    { id: 'cpu', name: 'Процессор' },
-                    { id: 'gpu', name: 'Видеокарта' },
-                    { id: 'ram', name: 'Оперативная память' },
-                    { id: 'storage', name: 'Накопитель' },
-                    { id: 'motherboard', name: 'Материнская плата' },
-                    { id: 'psu', name: 'Блок питания' }
-                ];
-                
-                let totalPrice = 0;
-                let componentsHTML = '';
-                let hasSelection = false;
-                
-                components.forEach(comp => {
-                    const select = document.getElementById(comp.id);
-                    const selectedOption = select.options[select.selectedIndex];
-                    
-                    if (selectedOption.value) {
-                        hasSelection = true;
-                        const price = parseInt(selectedOption.getAttribute('data-price'));
-                        totalPrice += price;
-                        
-                        componentsHTML += `
-                            <div class="component-item">
-                                <span>${comp.name}: ${selectedOption.text.split(' - ')[0]}</span>
-                                <span>${price.toLocaleString()}₽</span>
-                            </div>
-                        `;
-                    }
-                });
-                
-                if (hasSelection) {
-                    document.getElementById('componentsList').innerHTML = componentsHTML;
-                    document.getElementById('totalPrice').innerHTML = `Итого: ${totalPrice.toLocaleString()}₽`;
-                    document.getElementById('selectedComponents').style.display = 'block';
-                } else {
-                    alert('Выберите хотя бы один компонент!');
-                }
             });
             
             // Отзывы
